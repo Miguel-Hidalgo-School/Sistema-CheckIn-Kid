@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chavarria Academy Site | Portal de Encuestas para Padres</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "surface-tint": "#74584e",
+                    "on-primary-fixed": "#2a160f",
+                    "inverse-primary": "#e3bfb2",
+                    "on-surface": "#1e1b16",
+                    "on-primary": "#ffffff",
+                    "outline": "#827470",
+                    "tertiary-fixed-dim": "#f8bd45",
+                    "secondary-fixed-dim": "#ffb599",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffdbce",
+                    "on-primary-container": "#aa897e",
+                    "on-primary-fixed-variant": "#5a4138",
+                    "surface-white": "#FFFFFF",
+                    "on-background": "#1e1b16",
+                    "outline-variant": "#d3c3be",
+                    "surface-variant": "#e9e1d9",
+                    "status-warning": "#F4B942",
+                    "surface-bright": "#fff8f2",
+                    "surface-container-high": "#efe7de",
+                    "surface": "#fff8f2",
+                    "on-tertiary-fixed": "#271900",
+                    "on-surface-variant": "#504441",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#692100",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#33302a",
+                    "background": "#fff8f2",
+                    "surface-dim": "#e0d9d0",
+                    "on-secondary-fixed-variant": "#802a00",
+                    "on-error": "#ffffff",
+                    "primary": "#231009",
+                    "on-tertiary-container": "#bb8708",
+                    "on-secondary-fixed": "#370e00",
+                    "tertiary": "#1e1300",
+                    "inverse-on-surface": "#f7f0e7",
+                    "secondary": "#a53c08",
+                    "text-high-contrast": "#1A100C",
+                    "primary-fixed-dim": "#e3bfb2",
+                    "status-safe": "#2D5A27",
+                    "tertiary-fixed": "#ffdea7",
+                    "primary-container": "#3a241c",
+                    "tertiary-container": "#382600",
+                    "surface-container-highest": "#e9e1d9",
+                    "surface-container-low": "#faf2e9",
+                    "on-tertiary-fixed-variant": "#5e4200",
+                    "secondary-container": "#ff7e49",
+                    "surface-container": "#f4ede4",
+                    "primary-fixed": "#ffdbcf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "40px",
+                    "base": "8px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "mobile-margin": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Fraunces"],
+                    "display-lg": ["Fraunces"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["Fraunces"],
+                    "headline-lg": ["Fraunces"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fff8f2; /* Neutral Parchment */
+        }
+        .bento-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased">
+<!-- TopNavBar (Shell) -->
+<header class="bg-surface-white dark:bg-surface-container-high docked full-width top-0 sticky z-50 border-b border-outline-variant dark:border-outline">
+<nav class="flex justify-between items-center w-full px-container-margin py-base max-w-[1280px] mx-auto">
+<a class="flex items-center gap-2" href="index.html">
+<div class="w-8 h-8 rounded overflow-hidden"><img alt="Chavarria Academy Site" class="w-full h-full object-cover" src="assets/logo.png"/></div>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Chavarria Academy Site</span>
+</a>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly school administrator portrait, high-quality photography, soft studio lighting, corporate yet approachable aesthetic, neutral beige background, wearing professional attire, sharp focus on eyes, warm smile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDlYLa5HkJ6g1M5cjmSAdY0KecNzU1FWAQLKpOzMutfDf9EH8Z6BKJuQW8Qw6-BjCBXJoqfFfoauoxnu8EYvLNAhVIQD6YrPUStI8aU4EocqAroU52sHBMj9FcyFnuj-RLSe1vtP6G6-EVyJEc7BT6FSllg4YI1PFELEjgRbJwdOqpAvmda1R-yjRl8ajfnggurAHYJwaMy-GDlLdykzx1Ogmahzczs8BPVQz3Xh4Y6Nfp2wTin72d"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="max-w-[600px] mx-auto px-mobile-margin pb-32 pt-8">
+<!-- Hero Greeting Section -->
+<section class="mb-section-gap">
+<div class="relative rounded-2xl overflow-hidden h-48 mb-6 shadow-sm">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A warm, bright classroom setting with soft morning sunlight streaming through windows, wooden school furniture, colorful educational posters in a blurred background, shallow depth of field, evoking a sense of safety, academic excellence, and care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHcIFjysFAoXrtq9oukjrh3LapVvumFX571F8V9gS93V00029MSyCRz5cs1p_yJcELXN7HxtcPwimRD3CmEMrgYDX8tcLZ6YOJuSDeyEQJUJSML_OUDTXaNylXhbWoQRn_8btaHWRfbfo90a2pI_MmpifBdQbITsqInDpNfVV_G1AbvKtnMnT0YjJAPKu7qT2PGH29f81xFsiGk6rTkzDBoq68EetocgfYaeLlvK5lm_eFh1CBCD4m"/>
+<div class="absolute bottom-4 left-6 z-20">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-white drop-shadow-sm">
+                        Hola, Padre/Tutor de <span class="font-bold">Mateo García</span>
+</h1>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant px-2">
+                Por favor, ayúdanos a mantener la información de salud de tu hijo actualizada para garantizar su bienestar en la escuela.
+            </p>
+</section>
+<!-- Form Section -->
+<form class="flex flex-col gap-6" id="surveyForm">
+<!-- Allergies Card (Asymmetric Bento Style) -->
+<div class="bento-card bg-surface-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<h2 class="font-headline-md text-headline-md text-text-high-contrast">Alergias</h2>
+</div>
+<div class="space-y-4">
+<label class="block">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-2">¿Tiene alguna alergia conocida?</span>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface-white focus:ring-secondary focus:border-secondary transition-all" placeholder="Ej: Cacahuates, Penicilina, etc." rows="3"></textarea>
+</label>
+<div class="flex gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface-variant">Ninguna</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface-variant">Polen</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-sm text-label-sm">+ Agregar común</span>
+</div>
+</div>
+</div>
+<!-- Health Notes Card -->
+<div class="bento-card bg-surface-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
+<h2 class="font-headline-md text-headline-md text-text-high-contrast">Notas de Salud</h2>
+</div>
+<div class="space-y-4">
+<label class="block">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-2">Observaciones médicas o medicamentos</span>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface-white focus:ring-secondary focus:border-secondary transition-all" placeholder="Escriba aquí cualquier condición que debamos conocer..." rows="4"></textarea>
+</label>
+<div class="p-3 bg-surface-container-low rounded-lg border border-dashed border-outline-variant flex gap-3 items-start">
+<span class="material-symbols-outlined text-status-warning text-lg">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant italic">
+                            Esta información es tratada con estricta confidencialidad por el personal de enfermería.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Emergency Contact Card -->
+<div class="bento-card bg-surface-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">contact_emergency</span>
+<h2 class="font-headline-md text-headline-md text-text-high-contrast">Contacto de Emergencia</h2>
+</div>
+<div class="space-y-4">
+<div class="grid grid-cols-1 gap-4">
+<label class="block">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Nombre Completo</span>
+<input class="w-full rounded-lg border-outline-variant bg-surface-white focus:ring-secondary focus:border-secondary" type="text" value="Elena García"/>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Parentesco</span>
+<input class="w-full rounded-lg border-outline-variant bg-surface-white focus:ring-secondary focus:border-secondary" type="text" value="Tía"/>
+</label>
+<label class="block">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Teléfono</span>
+<input class="w-full rounded-lg border-outline-variant bg-surface-white focus:ring-secondary focus:border-secondary" type="tel" value="555-0123-456"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Submit Action -->
+<div class="mt-4">
+<button class="w-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-on-secondary font-headline-md text-headline-md py-4 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2" type="submit">
+                    Actualizar Información
+                    <span class="material-symbols-outlined">send</span>
+</button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">
+                    Sus datos están protegidos por encriptación institucional.
+                </p>
+</div>
+</form>
+</main>
+<!-- BottomNavBar (Shell Mobile-Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-mobile-margin pb-safe h-16 bg-surface-white dark:bg-surface-container border-t border-outline-variant shadow-[0_-2px_10px_rgba(0,0,0,0.05)] md:hidden z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 transition-all" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 transition-all" href="escaner.html">
+<span class="material-symbols-outlined">qr_code</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Escaneo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 transition-all" href="registro.html">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Alumnos</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-2xl p-2 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Encuestas</span>
+</a>
+</nav>
+<script>
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.submitter;
+            const originalContent = btn.innerHTML;
+            
+            // Basic UI Feedback
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Enviando...';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ¡Enviado!';
+                btn.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+                btn.classList.add('bg-status-safe', 'text-white');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.add('bg-secondary-container', 'text-on-secondary-container');
+                    btn.classList.remove('bg-status-safe', 'text-white');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80');
+                    alert('La información de Mateo ha sido actualizada exitosamente.');
+                }, 2000);
+            }, 1500);
+        });
+
+        // Simple interaction for chip adding
+        document.querySelectorAll('.flex.gap-2.flex-wrap span').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const textarea = this.closest('.space-y-4').querySelector('textarea');
+                if (this.textContent.includes('+')) {
+                    const allergy = prompt('Ingrese el nombre de la alergia:');
+                    if(allergy) {
+                        const newChip = document.createElement('span');
+                        newChip.className = 'inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface-variant';
+                        newChip.textContent = allergy;
+                        this.parentNode.insertBefore(newChip, this);
+                    }
+                } else {
+                    textarea.value += (textarea.value ? ', ' : '') + this.textContent;
+                }
+            });
+        });
+    </script>
+<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white">© Chavarría Producciones</footer>
+<script>
+// Usa el logo institucional guardado en Configuración (si el usuario subió uno) en toda la plataforma
+(function() {
+    var saved = localStorage.getItem('veritasAcademyLogo');
+    if (saved) {
+        document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
+            img.src = saved;
+        });
+    }
+})();
+</script>
+</body></html>

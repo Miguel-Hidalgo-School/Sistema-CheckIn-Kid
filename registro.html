@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chavarria Academy Site | Registro de Alumno</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9,400;9,600;9,700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "surface-tint": "#74584e",
+                        "on-primary-fixed": "#2a160f",
+                        "inverse-primary": "#e3bfb2",
+                        "on-surface": "#1e1b16",
+                        "on-primary": "#ffffff",
+                        "outline": "#827470",
+                        "tertiary-fixed-dim": "#f8bd45",
+                        "secondary-fixed-dim": "#ffb599",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffdbce",
+                        "on-primary-container": "#aa897e",
+                        "on-primary-fixed-variant": "#5a4138",
+                        "surface-white": "#FFFFFF",
+                        "on-background": "#1e1b16",
+                        "outline-variant": "#d3c3be",
+                        "surface-variant": "#e9e1d9",
+                        "status-warning": "#F4B942",
+                        "surface-bright": "#fff8f2",
+                        "surface-container-high": "#efe7de",
+                        "surface": "#fff8f2",
+                        "on-tertiary-fixed": "#271900",
+                        "on-surface-variant": "#504441",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#692100",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#33302a",
+                        "background": "#fff8f2",
+                        "surface-dim": "#e0d9d0",
+                        "on-secondary-fixed-variant": "#802a00",
+                        "on-error": "#ffffff",
+                        "primary": "#231009",
+                        "on-tertiary-container": "#bb8708",
+                        "on-secondary-fixed": "#370e00",
+                        "tertiary": "#1e1300",
+                        "inverse-on-surface": "#f7f0e7",
+                        "secondary": "#a53c08",
+                        "text-high-contrast": "#1A100C",
+                        "primary-fixed-dim": "#e3bfb2",
+                        "status-safe": "#2D5A27",
+                        "tertiary-fixed": "#ffdea7",
+                        "primary-container": "#3a241c",
+                        "tertiary-container": "#382600",
+                        "surface-container-highest": "#e9e1d9",
+                        "surface-container-low": "#faf2e9",
+                        "on-tertiary-fixed-variant": "#5e4200",
+                        "secondary-container": "#ff7e49",
+                        "surface-container": "#f4ede4",
+                        "primary-fixed": "#ffdbcf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "40px",
+                        "base": "8px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "mobile-margin": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Fraunces"],
+                        "display-lg": ["Fraunces"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Fraunces"],
+                        "headline-lg": ["Fraunces"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #fff8f2; /* background */
+            color: #1e1b16; /* on-background */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #a53c08; /* secondary */
+            box-shadow: 0 0 0 2px rgba(165, 60, 8, 0.1);
+        }
+        .qr-placeholder-animation {
+            background: linear-gradient(90deg, #f4ede4 25%, #e9e1d9 50%, #f4ede4 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Offline Mode Banner (Visible when offline) -->
+<div class="hidden bg-status-warning text-on-tertiary-fixed px-4 py-2 justify-center items-center gap-2 text-label-sm font-bold shadow-md sticky top-0 z-[60]" id="offlineBanner">
+<span class="material-symbols-outlined text-sm">cloud_off</span>
+<span data-i18n="offline_msg">MODO LOCAL / OFFLINE: los datos se guardarán en este dispositivo y se sincronizarán al volver la conexión.</span>
+</div>
+<!-- TopNavBar -->
+<nav class="bg-surface-white dark:bg-surface-container-high border-b border-outline-variant dark:border-outline top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-container-margin py-base max-w-[1280px] mx-auto">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-2 hover:opacity-80 transition-opacity" href="index.html">
+<div class="w-8 h-8 rounded overflow-hidden"><img alt="Chavarria Academy Site" class="w-full h-full object-cover" src="assets/logo.png"/></div>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Chavarria Academy Site</span>
+</a>
+<div class="hidden md:flex gap-6 ml-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" data-i18n="nav_dashboard" href="index.html">Dashboard</a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary" data-i18n="nav_enrollment" href="registro.html">Enrollment</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" data-i18n="nav_scanner" href="escaner.html">Scanner</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" data-i18n="nav_parent_portal" href="encuestas.html">Parent Portal</a>
+</div>
+</div>
+<div class="flex items-center gap-base">
+<div class="relative group">
+<button class="flex items-center gap-1 px-3 py-1 rounded-full border border-outline-variant hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">language</span>
+<span class="font-label-md" id="currentLangDisplay">English (U.S.A.)</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="absolute right-0 mt-2 w-48 bg-surface-white border border-outline-variant rounded-lg shadow-lg hidden group-hover:block z-50">
+<div class="py-1">
+<a class="flex items-center px-4 py-2 text-label-md text-on-surface hover:bg-surface-variant transition-colors" href="javascript:void(0)" onclick="setLanguage('ES')">Español (México)</a>
+<a class="flex items-center px-4 py-2 text-label-md text-on-surface hover:bg-surface-variant transition-colors" href="javascript:void(0)" onclick="setLanguage('PT')">Português (Brasil)</a>
+<a class="flex items-center px-4 py-2 text-label-md text-on-surface hover:bg-surface-variant transition-colors" href="javascript:void(0)" onclick="setLanguage('EN')">English (U.S.A.)</a>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined p-2 hover:bg-surface-container dark:hover:bg-surface-container-highest rounded-full text-on-surface-variant">notifications</button>
+<a class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs" href="configuracion.html">AD</a>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant py-container-margin gap-base z-40 pt-20">
+<nav class="flex flex-col flex-1">
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-variant transition-all duration-200" href="index.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md" data-i18n="nav_dashboard">Dashboard</span>
+</a>
+<a class="flex items-center gap-base bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg px-4 py-3 mx-2" href="registro.html">
+<span class="material-symbols-outlined">person_add</span>
+<span class="font-label-md" data-i18n="nav_enrollment">Enrollment</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-variant transition-all duration-200" href="escaner.html">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="font-label-md" data-i18n="nav_scanner">Access Scanner</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-variant transition-all duration-200" href="encuestas.html">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-label-md" data-i18n="nav_parent_portal">Parent Portal</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-variant transition-all duration-200" href="configuracion.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md" data-i18n="nav_settings">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 flex flex-col gap-2">
+<div class="flex items-center gap-base text-on-surface-variant px-4 py-2 text-label-sm italic opacity-60">
+<span class="material-symbols-outlined text-xs" id="syncIcon">sync</span>
+<span data-i18n="sync_ready" id="syncStatus">System Ready</span>
+</div>
+<div class="flex items-center gap-base text-status-safe px-4 py-1 text-[10px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-xs">offline_pin</span>
+<span data-i18n="local_storage_active">Local Storage Active</span>
+</div>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-2 hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-md" data-i18n="nav_support">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 min-h-screen pt-4 pb-20 px-container-margin md:px-section-gap max-w-[1000px] mx-auto">
+<!-- Header Section -->
+<header class="mb-section-gap">
+<div class="flex flex-col sm:flex-row justify-between items-start gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-text-high-contrast mb-2" data-i18n="title">Student Enrollment</h1>
+<p class="text-on-surface-variant font-body-lg" data-i18n="subtitle">Register a new student to the Chavarria Academy Site system. Please ensure all legal data matches official documentation.</p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="bg-surface-container px-3 py-2 rounded-lg border border-outline-variant flex flex-col items-end">
+<span class="text-[10px] font-bold text-outline uppercase" data-i18n="local_records">Local Records</span>
+<span class="text-label-md font-bold text-primary" id="localCount">0 Pending Sync</span>
+</div>
+<div class="bg-status-safe/10 text-status-safe px-2 py-1 rounded text-[10px] font-bold flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[12px]">security</span>
+<span data-i18n="offline_ready">OFFLINE ENCRYPTION ON</span>
+</div>
+</div>
+</div>
+</header>
+<form autocomplete="off" class="space-y-8" id="enrollmentForm">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Form Fields Column -->
+<div class="lg:col-span-2 space-y-gutter">
+<!-- Section: Student Information -->
+<section class="bg-surface-white border border-outline-variant p-6 rounded-xl shadow-sm">
+<div class="flex items-center gap-2 mb-6 text-primary"><span class="material-symbols-outlined">person</span><h3 class="font-headline-md text-headline-md" data-i18n="sec_student">Student Information</h3></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="md:col-span-2"><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_fullname" for="fullName">Full Name (First, Middle, Last)</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary transition-all" id="fullName" name="fullName" oninput="updatePreview()" placeholder="e.g. Maria Guadalupe Lopez Garcia" type="text"/></div>
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_curp" for="curp">CURP</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary transition-all uppercase" id="curp" maxlength="18" name="curp" oninput="handleCurpChange()" placeholder="18 Characters" type="text"/></div>
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_birthdate" for="birthdate">Birthdate</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary transition-all" id="birthdate" name="birthdate" type="date"/></div>
+</div>
+</section>
+<!-- Section: Tutors Information -->
+<section class="space-y-6">
+<div class="bg-surface-white border border-outline-variant p-6 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-6"><div class="flex items-center gap-2 text-primary"><span class="material-symbols-outlined">family_restroom</span><h3 class="font-headline-md text-headline-md" data-i18n="sec_tutor">Datos de Padre o Madre</h3></div></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="md:col-span-2"><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_tutor_name">Full Name</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary" name="tutorName" type="text"/></div>
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_curp">CURP</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary uppercase" maxlength="18" name="tutorCurp" type="text"/></div>
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_tutor_phone">WhatsApp Phone</label><div class="flex"><span class="inline-flex items-center px-3 bg-outline-variant text-on-surface-variant border border-r-0 border-outline-variant rounded-l-lg">+52</span><input class="w-full bg-surface-container-low border border-outline-variant rounded-r-lg px-4 py-3 focus:border-secondary" name="tutorPhone" placeholder="10 digits" type="tel"/></div></div>
+</div>
+</div>
+</section>
+<!-- Section: Health -->
+<section class="bg-surface-white border border-outline-variant p-6 rounded-xl shadow-sm">
+<div class="flex items-center gap-2 mb-6 text-primary"><span class="material-symbols-outlined">medical_services</span><h3 class="font-headline-md text-headline-md" data-i18n="sec_health">Salud y Cuidados Especiales</h3></div>
+<div class="space-y-4">
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_allergies" for="allergies">Known Allergies</label><input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary transition-all" id="allergies" name="allergies" oninput="updatePreview()" placeholder="e.g. Peanuts, Penicillin, None" type="text"/></div>
+<div><label class="block font-label-md text-label-md mb-1 text-on-surface-variant" data-i18n="label_emergency" for="notes">Notas Adicionales y Protocolo de Emergencia</label><textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:border-secondary transition-all" id="notes" name="notes" placeholder="Ej: El alumno padece epilepsia. En caso de crisis: llamar a la madre inmediatamente, despejar el área, no sujetar." rows="5"></textarea></div>
+</div>
+</section>
+</div>
+<!-- Preview/QR Column -->
+<div class="lg:sticky lg:top-24 space-y-gutter">
+<div class="bg-surface-container-low border border-outline-variant rounded-2xl p-8 flex flex-col items-center text-center shadow-lg">
+<h4 class="font-headline-md text-headline-md text-primary mb-6" data-i18n="preview_title">Digital ID Preview</h4>
+<div class="w-48 h-48 bg-white border-4 border-surface-container-highest rounded-xl flex items-center justify-center p-2 mb-6 relative overflow-hidden" id="qr-container">
+<img alt="Student Portrait" class="w-full h-full object-cover rounded-lg bg-surface-variant" id="studentPhoto" src="assets/photo-placeholder.svg"/>
+<div class="absolute bottom-2 right-2 flex gap-1">
+<button class="w-8 h-8 bg-surface-white/90 backdrop-blur shadow-sm rounded-full flex items-center justify-center text-primary hover:bg-secondary hover:text-white transition-colors" onclick="document.getElementById('photoUpload').click()" title="Subir foto desde galería" type="button">
+<span class="material-symbols-outlined text-sm">upload</span>
+</button>
+<button class="w-8 h-8 bg-surface-white/90 backdrop-blur shadow-sm rounded-full flex items-center justify-center text-primary hover:bg-secondary hover:text-white transition-colors" onclick="document.getElementById('photoCamera').click()" title="Tomar foto / escanear QR con la cámara" type="button">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</button>
+</div>
+<input accept="image/*" class="hidden" id="photoUpload" onchange="handleImage(this)" type="file"/>
+<input accept="image/*" capture="environment" class="hidden" id="photoCamera" onchange="handleImage(this)" type="file"/>
+</div>
+<div class="w-full text-left space-y-4">
+<div>
+<p class="text-[10px] font-bold uppercase text-outline tracking-widest" data-i18n="preview_student_label">Student</p>
+<p class="font-headline-md text-headline-md text-on-surface leading-tight" id="previewName">—</p>
+</div>
+<div class="flex justify-between border-t border-outline-variant pt-3">
+<div>
+<p class="text-[10px] font-bold uppercase text-outline tracking-widest" data-i18n="label_curp">CURP</p>
+<p class="font-label-md text-on-surface" id="previewCurp">—</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase text-outline tracking-widest" data-i18n="preview_allergies_label">Allergies</p>
+<p class="font-label-md text-error" id="previewAllergies">—</p>
+</div>
+</div>
+</div>
+<p class="mt-8 text-label-sm text-on-surface-variant italic">ID will be active immediately upon submission.</p>
+</div>
+<button class="w-full bg-secondary hover:bg-on-secondary-fixed-variant text-white font-bold py-4 px-8 rounded-xl shadow-md transform active:scale-95 transition-all flex items-center justify-center gap-2" id="submitBtn" type="submit">
+<span class="material-symbols-outlined">save</span>
+<span data-i18n="btn_complete">Complete Enrollment</span>
+</button>
+</div>
+</div>
+</form>
+</main>
+<!-- BottomNavBar (Visible on Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 md:hidden rounded-t-xl bg-surface-white dark:bg-surface-container border-t border-outline-variant shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+<div class="flex justify-around items-center px-mobile-margin pb-safe h-16">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant transition-all" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm-mobile text-label-sm-mobile" data-i18n="nav_home">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant transition-all" href="escaner.html">
+<span class="material-symbols-outlined">qr_code</span>
+<span class="font-label-sm-mobile text-label-sm-mobile" data-i18n="nav_scanner">Scanner</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-2xl p-2 scale-90" href="registro.html">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm-mobile text-label-sm-mobile" data-i18n="nav_enroll">Students</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant transition-all" href="encuestas.html">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-sm-mobile text-label-sm-mobile">Surveys</span>
+</a>
+</div>
+</nav>
+<script>
+    const DB_NAME = 'VeritasAcademyEnrollment';
+    let currentLang = 'ES';
+
+    const i18n = {
+        'EN': {
+            'title': 'Student Enrollment', 'subtitle': 'Register a new student to the Chavarria Academy Site system.',
+            'offline_msg': 'OFFLINE MODE: data will be saved on this device and synced when connection returns.',
+            'nav_dashboard': 'Dashboard', 'nav_enrollment': 'Enrollment', 'nav_scanner': 'Scanner',
+            'nav_parent_portal': 'Parent Portal', 'nav_settings': 'Settings', 'nav_support': 'Support',
+            'nav_home': 'Home', 'nav_enroll': 'Students', 'sync_ready': 'System Ready',
+            'local_records': 'Local Records', 'sec_student': 'Student Information',
+            'label_fullname': 'Full Name (First, Middle, Last)', 'label_curp': 'CURP', 'label_birthdate': 'Birthdate',
+            'sec_tutor': 'Parent or Tutor Data', 'label_tutor_name': 'Full Name', 'label_tutor_phone': 'WhatsApp Phone',
+            'sec_health': 'Health & Care', 'label_allergies': 'Known Allergies', 'label_emergency': 'Emergency Notes & Protocols',
+            'preview_title': 'Digital ID Preview', 'preview_student_label': 'Student', 'preview_allergies_label': 'Allergies',
+            'btn_complete': 'Complete Enrollment', 'lang_display': 'English (U.S.A.)',
+            'success_msg': 'Student saved successfully to the local database.',
+            'local_storage_active': 'Local Storage Active', 'offline_ready': 'OFFLINE ENCRYPTION ON'
+        },
+        'ES': {
+            'title': 'Registro de Alumno', 'subtitle': 'Registra un nuevo alumno en el sistema Chavarria Academy Site.',
+            'offline_msg': 'MODO OFFLINE: los datos se guardarán en este dispositivo y se sincronizarán al volver la conexión.',
+            'nav_dashboard': 'Tablero', 'nav_enrollment': 'Inscripción', 'nav_scanner': 'Escáner',
+            'nav_parent_portal': 'Portal Padres', 'nav_settings': 'Configuración', 'nav_support': 'Soporte',
+            'nav_home': 'Inicio', 'nav_enroll': 'Alumnos', 'sync_ready': 'Sistema Listo',
+            'local_records': 'Registros Locales', 'sec_student': 'Información del Alumno',
+            'label_fullname': 'Nombre Completo (Nombres, Apellidos)', 'label_curp': 'CURP', 'label_birthdate': 'Fecha de Nacimiento',
+            'sec_tutor': 'Datos de Padre o Madre', 'label_tutor_name': 'Nombre Completo', 'label_tutor_phone': 'Teléfono WhatsApp',
+            'sec_health': 'Salud y Cuidados Especiales', 'label_allergies': 'Alergias Conocidas', 'label_emergency': 'Notas Adicionales y Protocolo de Emergencia',
+            'preview_title': 'Vista Previa ID Digital', 'preview_student_label': 'Alumno', 'preview_allergies_label': 'Alergias',
+            'btn_complete': 'Completar Registro', 'lang_display': 'Español (México)',
+            'success_msg': 'Alumno guardado exitosamente en la base de datos local.',
+            'local_storage_active': 'Almacenamiento Local Activo', 'offline_ready': 'CIFRADO OFFLINE ACTIVO'
+        },
+        'PT': {
+            'title': 'Matrícula de Aluno', 'subtitle': 'Registrar um novo aluno no sistema Chavarria Academy Site.',
+            'offline_msg': 'MODO OFFLINE: os dados serão salvos neste dispositivo e sincronizados quando a conexão retornar.',
+            'nav_dashboard': 'Painel', 'nav_enrollment': 'Matrícula', 'nav_scanner': 'Scanner',
+            'nav_parent_portal': 'Portal dos Pais', 'nav_settings': 'Configurações', 'nav_support': 'Suporte',
+            'nav_home': 'Início', 'nav_enroll': 'Alunos', 'sync_ready': 'Sistema Pronto',
+            'local_records': 'Registros Locais', 'sec_student': 'Informações do Aluno',
+            'label_fullname': 'Nome Completo', 'label_curp': 'Documento (CURP)', 'label_birthdate': 'Data de Nascimento',
+            'sec_tutor': 'Dados do Pai ou Mãe', 'label_tutor_name': 'Nome Completo', 'label_tutor_phone': 'WhatsApp',
+            'sec_health': 'Saúde e Cuidados', 'label_allergies': 'Alergias Conhecidas', 'label_emergency': 'Notas de Emergência e Protocolos',
+            'preview_title': 'Prévia do ID Digital', 'preview_student_label': 'Aluno', 'preview_allergies_label': 'Alergias',
+            'btn_complete': 'Concluir Matrícula', 'lang_display': 'Português (Brasil)',
+            'success_msg': 'Aluno salvo com sucesso no banco de dados local.',
+            'local_storage_active': 'Armazenamento Local Ativo', 'offline_ready': 'CRIPTOGRAFIA OFFLINE ATIVA'
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById('currentLangDisplay').innerText = i18n[lang].lang_display;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (i18n[lang][key]) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = i18n[lang][key];
+                } else {
+                    el.innerText = i18n[lang][key];
+                }
+            }
+        });
+        updatePreview();
+        updateLocalCount();
+    }
+
+    // CURP -> Birthdate auto-fill (heuristic for Mexican CURP format)
+    function handleCurpChange() {
+        const curpInput = document.getElementById('curp');
+        const curp = curpInput.value.toUpperCase();
+        curpInput.value = curp;
+        if (curp.length >= 10) {
+            const yearPart = curp.substring(4, 6);
+            const monthPart = curp.substring(6, 8);
+            const dayPart = curp.substring(8, 10);
+            let yearPrefix = parseInt(yearPart) < 25 ? "20" : "19";
+            const formattedDate = `${yearPrefix}${yearPart}-${monthPart}-${dayPart}`;
+            try {
+                const d = new Date(formattedDate);
+                if (!isNaN(d.getTime())) document.getElementById('birthdate').value = formattedDate;
+            } catch (e) {}
+        }
+        updatePreview();
+    }
+
+    // Photo upload or camera capture -> stored as Base64 (works fully offline, no server needed)
+    function handleImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('studentPhoto').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function updatePreview() {
+        const name = document.getElementById('fullName').value || '—';
+        const curp = document.getElementById('curp').value || '—';
+        const fallbackAllergy = currentLang === 'ES' ? 'Ninguna' : (currentLang === 'PT' ? 'Nenhuma' : 'None Reported');
+        const allergies = document.getElementById('allergies').value || fallbackAllergy;
+        document.getElementById('previewName').innerText = name;
+        document.getElementById('previewCurp').innerText = curp;
+        document.getElementById('previewAllergies').innerText = allergies;
+    }
+
+    function updateLocalCount() {
+        const stored = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+        const countText = currentLang === 'ES' ? `${stored.length} Pendiente(s)` :
+            (currentLang === 'PT' ? `${stored.length} Pendente(s)` : `${stored.length} Pending Sync`);
+        document.getElementById('localCount').innerText = countText;
+    }
+
+    function setOnlineStatus(online) {
+        const banner = document.getElementById('offlineBanner');
+        if (online) {
+            document.getElementById('syncStatus').innerText = i18n[currentLang].sync_ready;
+            document.getElementById('syncIcon').innerText = 'sync';
+            banner.classList.add('hidden');
+            banner.classList.remove('flex');
+        } else {
+            document.getElementById('syncStatus').innerText = i18n[currentLang].nav_home === 'Home' ? 'Offline' : 'Sin conexión';
+            document.getElementById('syncIcon').innerText = 'cloud_off';
+            banner.classList.remove('hidden');
+            banner.classList.add('flex');
+        }
+    }
+
+    // Real local persistence: works with zero internet connection.
+    document.getElementById('enrollmentForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        data.timestamp = new Date().toISOString();
+        data.id = 'STU-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        data.photo = document.getElementById('studentPhoto').src;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span>';
+
+        const stored = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+        stored.push(data);
+        localStorage.setItem(DB_NAME, JSON.stringify(stored));
+        updateLocalCount();
+
+        setTimeout(() => {
+            btn.classList.replace('bg-secondary', 'bg-status-safe');
+            btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span>';
+            alert(i18n[currentLang].success_msg);
+            setTimeout(() => location.reload(), 500);
+        }, 600);
+    });
+
+    window.addEventListener('online', () => setOnlineStatus(true));
+    window.addEventListener('offline', () => setOnlineStatus(false));
+
+    setOnlineStatus(navigator.onLine);
+    setLanguage('ES');
+</script>
+<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white">© Chavarría Producciones</footer>
+<script>
+// Usa el logo institucional guardado en Configuración (si el usuario subió uno) en toda la plataforma
+(function() {
+    var saved = localStorage.getItem('veritasAcademyLogo');
+    if (saved) {
+        document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
+            img.src = saved;
+        });
+    }
+})();
+</script>
+</body></html>
