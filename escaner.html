@@ -229,7 +229,7 @@
 <div class="flex flex-col gap-6">
 <button class="relative bg-secondary text-on-secondary h-16 rounded-2xl font-label-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-lg overflow-hidden cursor-pointer" id="voiceBtn">
 <span class="material-symbols-outlined" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
-<span id="btnText">Registro Rápido por Voz / Texto</span>
+<span id="btnText">Registro por Voz (ES-MX)</span>
 <div class="absolute inset-0 bg-primary/20 hidden" id="btnLoadingOverlay"></div>
 </button>
 <div class="flex items-center gap-4 py-2">
@@ -317,8 +317,8 @@
     const TRANSLATIONS = {
         ES: {
             instruction: "Presiona el botón e indica el nombre del alumno",
-            btnText: "Registro Rápido por Voz / Texto",
-            btnListening: "Escuchando o esperando entrada...",
+            btnText: "Registro por Voz (ES-MX)",
+            btnListening: "Escuchando voz (Español México)...",
             orLabel: "o",
             manualLabel: "Entrada Manual",
             placeholder: "ID o Nombre del Alumno",
@@ -484,6 +484,8 @@
                 }
 
                 recognitionInstance = new SpeechRecognition();
+                
+                // 🇲🇽 Forzando estrictamente Español de México
                 recognitionInstance.lang = 'es-MX';
                 recognitionInstance.interimResults = false;
                 recognitionInstance.maxAlternatives = 1;
@@ -512,14 +514,13 @@
                     }
                 };
 
-                // Si en 3.5 segundos el micrófono no captura audio de forma nativa (común en PC / redes locales), salta el respaldo automáticamente
                 recognitionTimeout = setTimeout(() => {
                     if (!hasFinished && isListening) {
                         try { recognitionInstance.abort(); } catch(e) {}
                         resetVoiceState();
                         triggerFallbackPrompt();
                     }
-                }, 3500);
+                }, 4000);
 
                 setTimeout(() => {
                     try {
@@ -542,7 +543,7 @@
     });
 
     function triggerFallbackPrompt() {
-        let nameInput = prompt("🎙️ Registro Rápido (Modo Híbrido):\nEscribe el nombre del alumno:");
+        let nameInput = prompt("🎙️ Registro Rápido (Español México):\nEscribe el nombre del alumno:");
         if (nameInput && nameInput.trim() !== "") {
             logAccess(nameInput.trim());
         }
