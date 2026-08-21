@@ -2,7 +2,7 @@
 <html class="light" lang="es">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Chavarria Academy Site | Escáner de Acceso</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;display=swap" rel="stylesheet"/>
@@ -71,13 +71,6 @@
                 "xl": "0.75rem",
                 "full": "9999px"
           },
-          "spacing": {
-                "section-gap": "40px",
-                "container-margin": "24px",
-                "mobile-margin": "16px",
-                "base": "8px",
-                "gutter": "16px"
-          },
           "fontFamily": {
                 "label-sm": ["Inter"],
                 "label-md": ["Inter"],
@@ -94,7 +87,6 @@
                 "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
                 "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
                 "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
                 "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
                 "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
           }
@@ -137,8 +129,7 @@
         to { height: 20px; }
     }
     body {
-        min-height: 100dvh;
-        -webkit-tap-highlight-color: transparent;
+        min-height: 100vh;
     }
     .offline-badge {
         background: linear-gradient(90deg, #2D5A27 0%, #3e7b36 100%);
@@ -156,112 +147,93 @@
 </style>
 </head>
 <body class="bg-background font-body-md text-on-background selection:bg-secondary-container">
-<header class="bg-surface-white sticky top-0 z-50 border-b border-outline-variant flex justify-between items-center w-full px-container-margin py-base h-16">
+<header class="bg-surface-white sticky top-0 z-50 border-b border-outline-variant flex justify-between items-center w-full px-6 py-2 h-16">
 <div class="flex items-center gap-2">
 <div class="w-10 h-10 rounded-lg overflow-hidden bg-primary-fixed flex items-center justify-center">
-<img alt="Chavarria Academy Site Logo" class="w-full h-full object-cover" src="assets/logo.png"/>
+<span class="material-symbols-outlined text-primary">school</span>
 </div>
 <div>
 <h1 class="font-headline-md text-[18px] leading-tight font-bold text-primary">Chavarria Academy Site</h1>
 <div class="flex items-center gap-1.5">
 <span class="w-2 h-2 rounded-full bg-status-safe"></span>
-<span class="text-[10px] uppercase tracking-wider font-bold text-status-safe" id="statusIndicator">Modo Offline (Local)</span>
+<span class="text-[10px] uppercase tracking-wider font-bold text-status-safe">Modo Offline (Local)</span>
 </div>
 </div>
 </div>
 <div class="flex items-center gap-3">
 <div class="relative">
-<button class="flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-surface-container transition-colors border border-outline-variant" id="langToggle">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-surface-container transition-colors border border-outline-variant cursor-pointer" id="langToggle">
 <span class="material-symbols-outlined text-on-surface-variant text-[20px]">language</span>
 <span class="text-label-sm text-on-surface-variant uppercase font-bold" id="currentLang">ES</span>
 </button>
 <div class="absolute right-0 mt-2 w-44 bg-surface-white border border-outline-variant rounded-xl shadow-xl hidden z-[60] overflow-hidden" id="langMenu">
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('ES')">
+<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left cursor-pointer" onclick="setLanguage('ES')">
 <span class="text-label-md text-on-surface font-bold">Español</span>
 </button>
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('EN')">
-<span class="text-label-md text-on-surface">English</span>
-</button>
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('PT')">
-<span class="text-label-md text-on-surface">Português</span>
-</button>
 </div>
-</div>
-<div class="w-9 h-9 rounded-full overflow-hidden border border-outline-variant bg-surface-container shadow-sm">
-<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY"/>
 </div>
 </div>
 </header>
-<main class="pb-24">
-<!-- Viewfinder Area -->
-<section class="relative w-full aspect-[4/5] md:max-w-md md:mx-auto overflow-hidden bg-neutral-900 flex items-center justify-center">
-<div class="absolute inset-0 z-0">
-<img alt="Fondo Cámara" class="w-full h-full object-cover opacity-50 grayscale-[0.3]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8"/>
+
+<main class="max-w-2xl mx-auto p-6 pb-24">
+<!-- Panel de Control Principal para PC -->
+<div class="bg-surface-white rounded-3xl p-8 shadow-xl border border-outline-variant">
+<div class="text-center mb-8">
+<h2 class="font-headline-lg text-primary text-[28px] mb-2">Registro de Acceso por Voz y Manual</h2>
+<p class="text-on-surface-variant text-body-md">Haz clic en el micrófono y di el nombre del alumno, o escríbelo directamente.</p>
 </div>
-<div class="relative z-10 w-64 h-64">
-<div class="scan-frame absolute inset-0 rounded-3xl border-2 border-white/20"></div>
-<div class="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-secondary rounded-tl-2xl"></div>
-<div class="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-secondary rounded-tr-2xl"></div>
-<div class="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-secondary rounded-bl-2xl"></div>
-<div class="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-secondary rounded-br-2xl"></div>
-<div class="scan-line absolute w-full h-0.5 bg-gradient-to-r from-transparent via-secondary to-transparent shadow-[0_0_15px_rgba(165,60,8,0.8)]"></div>
-<div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 opacity-0" id="voiceVisualizer">
-<div class="bg-primary/60 backdrop-blur-md rounded-full p-8 scale-110">
-<div class="voice-wave text-secondary">
+
+<div class="flex flex-col gap-6">
+<!-- Botón de Voz Principal -->
+<button class="relative bg-secondary text-on-secondary h-20 rounded-2xl font-label-md text-lg flex items-center justify-center gap-4 active:scale-[0.99] transition-all shadow-xl overflow-hidden cursor-pointer hover:brightness-105" id="voiceBtn">
+<span class="material-symbols-outlined text-3xl" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span id="btnText">Presionar para Hablar (Español México)</span>
+<div class="absolute inset-0 flex items-center justify-center bg-secondary/90 transition-opacity duration-300 opacity-0 pointer-events-none" id="voiceVisualizerOverlay">
+<div class="voice-wave text-on-secondary scale-125">
 <span style="animation-delay: 0.1s"></span>
 <span style="animation-delay: 0.3s"></span>
 <span style="animation-delay: 0.2s"></span>
 <span style="animation-delay: 0.4s"></span>
 <span style="animation-delay: 0.5s"></span>
 </div>
+<span class="ml-3 font-bold text-lg" id="listeningLabel">Escuchando... Di el nombre</span>
 </div>
-</div>
-</div>
-<div class="absolute bottom-10 left-0 right-0 text-center z-20 px-6">
-<div class="bg-black/60 backdrop-blur-md inline-block px-5 py-2.5 rounded-full border border-white/10">
-<p class="text-white text-label-md" id="instructionText">Presiona el botón e indica el nombre del alumno</p>
-</div>
-</div>
-</section>
-<!-- Controls Area -->
-<section class="px-mobile-margin -mt-8 relative z-30">
-<div class="bg-surface-white rounded-t-[32px] p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.12)]">
-<div class="flex flex-col gap-6">
-<button class="relative bg-secondary text-on-secondary h-16 rounded-2xl font-label-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-lg overflow-hidden cursor-pointer" id="voiceBtn">
-<span class="material-symbols-outlined" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
-<span id="btnText">Registro por Voz (ES-MX)</span>
-<div class="absolute inset-0 bg-primary/20 hidden" id="btnLoadingOverlay"></div>
 </button>
+
 <div class="flex items-center gap-4 py-2">
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
-<span class="text-label-sm text-on-surface-variant font-bold uppercase tracking-widest" id="orLabel">o</span>
+<span class="text-label-sm text-on-surface-variant font-bold uppercase tracking-widest">o entrada rápida</span>
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
 </div>
+
+<!-- Entrada Manual -->
 <div class="space-y-2">
-<label class="text-label-md text-on-surface font-bold ml-1" for="manualEntry" id="manualLabel">Entrada Manual</label>
-<div class="relative">
-<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-body-md transition-all outline-none" id="manualEntry" placeholder="ID o Nombre del Alumno" type="text"/>
-<button class="absolute right-2 top-2 bottom-2 bg-primary text-on-primary w-12 flex items-center justify-center rounded-lg hover:brightness-110 active:scale-95 transition-all" id="manualSubmit">
+<label class="text-label-md text-on-surface font-bold ml-1" for="manualEntry">Escribir Nombre o ID</label>
+<div class="relative flex">
+<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-body-md transition-all outline-none" id="manualEntry" placeholder="Ej. Mística, Ximena, Julián..." type="text"/>
+<button class="ml-2 bg-primary text-on-primary px-6 flex items-center justify-center rounded-xl hover:brightness-110 active:scale-95 transition-all cursor-pointer" id="manualSubmit">
 <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </div>
 </div>
-<div class="mt-4">
+
+<!-- Registros Locales -->
+<div class="mt-6">
 <div class="flex items-center justify-between mb-4 px-1">
-<h3 class="text-label-md font-bold text-on-surface" id="recentTitle">Registros Locales (Hoy)</h3>
-<span class="text-[10px] font-bold bg-surface-container px-2 py-1 rounded text-on-surface-variant uppercase" id="logCount">0 logs</span>
+<h3 class="text-label-md font-bold text-on-surface">Registros Locales (Hoy)</h3>
+<span class="text-[11px] font-bold bg-surface-container px-2.5 py-1 rounded-lg text-on-surface-variant uppercase" id="logCount">0 registros</span>
 </div>
-<div class="space-y-3" id="recentScans">
-<div class="text-center py-8 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
+<div class="space-y-3 max-h-60 overflow-y-auto pr-1" id="recentScans">
+<div class="text-center py-10 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
 <span class="material-symbols-outlined text-outline-variant text-[40px] mb-2">history</span>
-<p class="text-label-sm text-on-surface-variant" id="emptyMsg">No hay registros recientes procesados localmente</p>
+<p class="text-label-sm text-on-surface-variant">No hay registros recientes procesados localmente</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section>
 </main>
+
 <!-- Success Modal -->
 <div class="fixed inset-0 z-[100] flex items-center justify-center px-6 pointer-events-none opacity-0 transition-all duration-300" id="successModal">
 <div class="absolute inset-0 bg-primary-container/60 backdrop-blur-sm"></div>
@@ -272,40 +244,21 @@
 </div>
 <div class="flex items-center gap-1.5 text-status-safe mb-2">
 <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="font-bold text-label-md uppercase tracking-wide" id="modalStatus">Registro Exitoso</span>
+<span class="font-bold text-label-md uppercase tracking-wide">Registro Exitoso</span>
 </div>
 <h2 class="font-headline-md text-[24px] text-primary mb-1" id="studentName">Mística Rodríguez</h2>
 <p class="text-on-surface-variant font-label-md mb-6" id="studentDetail">Grado 5 • Sección B</p>
-<div class="w-full bg-status-safe text-white py-4 rounded-2xl font-bold text-label-md mb-2 shadow-md" id="typeLabel">ENTRADA REGISTRADA</div>
+<div class="w-full bg-status-safe text-white py-4 rounded-2xl font-bold text-label-md mb-2 shadow-md">ENTRADA REGISTRADA</div>
 <p class="text-[12px] text-on-surface-variant mt-2" id="modalTime">Procesado localmente • 09:12 AM</p>
 </div>
 </div>
 </div>
-<!-- Offline Recognition Toast -->
-<div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] offline-badge text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 pointer-events-none opacity-0 translate-y-[-20px] transition-all duration-400" id="offlineToast">
+
+<!-- Offline Toast -->
+<div class="fixed top-6 left-1/2 -translate-x-1/2 z-[110] offline-badge text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 pointer-events-none opacity-0 translate-y-[-20px] transition-all duration-400" id="offlineToast">
 <span class="material-symbols-outlined text-[20px]">cloud_off</span>
-<span class="text-label-md font-bold" id="toastMsg">Sincronización pendiente - Modo Offline</span>
+<span class="text-label-md font-bold">Sincronización pendiente - Modo Offline</span>
 </div>
-<!-- Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe h-20 bg-surface-white border-t border-outline-variant shadow-[0_-2px_15px_rgba(0,0,0,0.05)] md:hidden z-50">
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="index.html">
-<span class="material-symbols-outlined">home</span>
-<span class="text-[10px] font-bold">Inicio</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 bg-secondary-container text-on-secondary-container px-5 py-2.5 rounded-2xl" href="escaner.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic_external_on</span>
-<span class="text-[10px] font-bold">Escáner</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="registro.html">
-<span class="material-symbols-outlined">group</span>
-<span class="text-[10px] font-bold">Alumnos</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="encuestas.html">
-<span class="material-symbols-outlined">assignment</span>
-<span class="text-[10px] font-bold">Reportes</span>
-</a>
-</nav>
-<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white mb-20">© Chavarría Producciones</footer>
 
 <script>
     const STUDENTS_DB = {
@@ -314,51 +267,9 @@
         'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8' }
     };
 
-    const TRANSLATIONS = {
-        ES: {
-            instruction: "Presiona el botón e indica el nombre del alumno",
-            btnText: "Registro por Voz (ES-MX)",
-            btnListening: "Escuchando voz (Español México)...",
-            orLabel: "o",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID o Nombre del Alumno",
-            recentTitle: "Registros Locales (Hoy)",
-            emptyMsg: "No hay registros recientes procesados localmente",
-            success: "Registro Exitoso",
-            entry: "ENTRADA REGISTRADA",
-            processed: "Procesado localmente",
-            toastOffline: "Sincronización pendiente - Modo Offline"
-        }
-    };
-
-    let currentLang = 'ES';
     let localLogs = [];
     let isListening = false;
     let recognitionInstance = null;
-
-    function setLanguage(lang) {
-        currentLang = lang;
-        const t = TRANSLATIONS[lang] || TRANSLATIONS['ES'];
-        document.getElementById('currentLang').textContent = lang;
-        document.getElementById('instructionText').textContent = t.instruction;
-        document.getElementById('btnText').textContent = t.btnText;
-        document.getElementById('orLabel').textContent = t.orLabel;
-        document.getElementById('manualLabel').textContent = t.manualLabel;
-        document.getElementById('manualEntry').placeholder = t.placeholder;
-        document.getElementById('recentTitle').textContent = t.recentTitle;
-        document.getElementById('emptyMsg').textContent = t.emptyMsg;
-        document.getElementById('langMenu').classList.add('hidden');
-    }
-
-    document.getElementById('langToggle').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('langMenu').classList.toggle('hidden');
-    });
-
-    window.addEventListener('click', () => {
-        const menu = document.getElementById('langMenu');
-        if (menu) menu.classList.add('hidden');
-    });
 
     function logAccess(rawInput) {
         if (!rawInput) return;
@@ -405,7 +316,7 @@
         const countBadge = document.getElementById('logCount');
         const emptyState = document.getElementById('emptyLogs');
         
-        countBadge.textContent = `${localLogs.length} logs`;
+        countBadge.textContent = `${localLogs.length} registros`;
         
         if (localLogs.length > 0) {
             emptyState.classList.add('hidden');
@@ -420,7 +331,7 @@
                             <p class="text-[11px] text-on-surface-variant font-medium">${log.time} • ${log.grade}</p>
                         </div>
                     </div>
-                    <span class="px-2.5 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[10px] font-bold">ENTRADA</span>
+                    <span class="px-3 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[11px] font-bold">ENTRADA</span>
                 </div>
             `).join('');
         }
@@ -429,14 +340,11 @@
     function showSuccessModal(log) {
         const modal = document.getElementById('successModal');
         const card = modal.querySelector('div:last-child');
-        const t = TRANSLATIONS[currentLang];
 
         document.getElementById('studentName').textContent = log.name;
         document.getElementById('studentDetail').textContent = log.grade;
         document.getElementById('studentImg').src = log.img;
-        document.getElementById('modalStatus').textContent = t.success;
-        document.getElementById('typeLabel').textContent = t.entry;
-        document.getElementById('modalTime').textContent = `${t.processed} • ${log.time}`;
+        document.getElementById('modalTime').textContent = `Procesado localmente • ${log.time}`;
 
         modal.classList.remove('pointer-events-none', 'opacity-0');
         card.classList.remove('scale-90');
@@ -446,33 +354,30 @@
             modal.classList.add('opacity-0');
             card.classList.add('scale-90');
             setTimeout(() => modal.classList.add('pointer-events-none'), 300);
-        }, 3000);
+        }, 2500);
     }
 
     function showOfflineToast() {
         const toast = document.getElementById('offlineToast');
-        document.getElementById('toastMsg').textContent = TRANSLATIONS[currentLang].toastOffline;
         toast.classList.remove('opacity-0', 'translate-y-[-20px]');
         toast.classList.add('opacity-100', 'translate-y-0');
         
         setTimeout(() => {
             toast.classList.add('opacity-0', 'translate-y-[-20px]');
             toast.classList.remove('opacity-100', 'translate-y-0');
-        }, 3000);
+        }, 2500);
     }
 
     const voiceBtn = document.getElementById('voiceBtn');
-    const visualizer = document.getElementById('voiceVisualizer');
+    const visualizerOverlay = document.getElementById('voiceVisualizerOverlay');
     let recognitionTimeout = null;
 
     voiceBtn.addEventListener('click', () => {
         if (isListening) return;
         isListening = true;
 
-        const t = TRANSLATIONS[currentLang];
-        document.getElementById('btnText').textContent = t.btnListening;
+        visualizerOverlay.classList.remove('opacity-0');
         document.getElementById('btnIcon').classList.add('micro-pulse');
-        visualizer.classList.remove('opacity-0');
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -484,8 +389,6 @@
                 }
 
                 recognitionInstance = new SpeechRecognition();
-                
-                // 🇲🇽 Forzando estrictamente Español de México
                 recognitionInstance.lang = 'es-MX';
                 recognitionInstance.interimResults = false;
                 recognitionInstance.maxAlternatives = 1;
@@ -505,7 +408,6 @@
                     hasFinished = true;
                     clearTimeout(recognitionTimeout);
                     resetVoiceState();
-                    triggerFallbackPrompt();
                 };
 
                 recognitionInstance.onend = () => {
@@ -516,11 +418,9 @@
 
                 recognitionTimeout = setTimeout(() => {
                     if (!hasFinished && isListening) {
-                        try { recognitionInstance.abort(); } catch(e) {}
                         resetVoiceState();
-                        triggerFallbackPrompt();
                     }
-                }, 4000);
+                }, 6000);
 
                 setTimeout(() => {
                     try {
@@ -528,33 +428,22 @@
                     } catch (e) {
                         clearTimeout(recognitionTimeout);
                         resetVoiceState();
-                        triggerFallbackPrompt();
                     }
                 }, 100);
                 return;
             } catch (e) {
                 resetVoiceState();
-                triggerFallbackPrompt();
             }
         } else {
             resetVoiceState();
-            triggerFallbackPrompt();
+            alert("Tu navegador de escritorio no soporta reconocimiento de voz nativo. Utiliza el campo manual.");
         }
     });
-
-    function triggerFallbackPrompt() {
-        let nameInput = prompt("🎙️ Registro Rápido (Español México):\nEscribe el nombre del alumno:");
-        if (nameInput && nameInput.trim() !== "") {
-            logAccess(nameInput.trim());
-        }
-    }
 
     function resetVoiceState() {
         isListening = false;
         if (recognitionTimeout) clearTimeout(recognitionTimeout);
-        const t = TRANSLATIONS[currentLang];
-        visualizer.classList.add('opacity-0');
-        document.getElementById('btnText').textContent = t.btnText;
+        visualizerOverlay.classList.add('opacity-0');
         document.getElementById('btnIcon').classList.remove('micro-pulse');
         if (recognitionInstance) {
             try { recognitionInstance.abort(); } catch(e) {}
