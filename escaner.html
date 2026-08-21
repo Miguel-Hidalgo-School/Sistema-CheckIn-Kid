@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Chavarria Academy Site | Escáner de Acceso</title>
+<title>Chavarria Academy Site | Registro de Acceso</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -16,101 +16,40 @@
                 "on-tertiary-fixed-variant": "#5e4200",
                 "inverse-surface": "#33302a",
                 "on-surface-variant": "#504441",
-                "on-tertiary-fixed": "#271900",
                 "outline": "#827470",
-                "on-tertiary-container": "#bb8708",
                 "surface-container-low": "#faf2e9",
-                "error-container": "#ffdad6",
                 "status-warning": "#F4B942",
                 "surface-bright": "#fff8f2",
-                "on-error-container": "#93000a",
-                "tertiary": "#1e1300",
-                "primary-container": "#3a241c",
-                "inverse-primary": "#e3bfb2",
                 "error": "#ba1a1a",
                 "secondary-container": "#ff7e49",
                 "on-background": "#1e1b16",
                 "surface-dim": "#e0d9d0",
                 "on-primary": "#ffffff",
                 "outline-variant": "#d3c3be",
-                "primary-fixed-dim": "#e3bfb2",
                 "surface-container-high": "#efe7de",
                 "surface": "#fff8f2",
-                "tertiary-fixed-dim": "#f8bd45",
                 "status-safe": "#2D5A27",
-                "secondary-fixed-dim": "#ffb599",
                 "secondary": "#a53c08",
                 "surface-container-lowest": "#ffffff",
                 "primary": "#231009",
-                "on-primary-fixed-variant": "#5a4138",
-                "on-secondary-fixed-variant": "#802a00",
-                "on-primary-fixed": "#2a160f",
-                "on-secondary": "#ffffff",
                 "surface-variant": "#e9e1d9",
-                "secondary-fixed": "#ffdbce",
-                "surface-tint": "#74584e",
-                "on-error": "#ffffff",
-                "on-secondary-fixed": "#370e00",
-                "text-high-contrast": "#1A100C",
-                "surface-container-highest": "#e9e1d9",
-                "on-primary-container": "#aa897e",
-                "tertiary-fixed": "#ffdea7",
-                "inverse-on-surface": "#f7f0e7",
-                "on-secondary-container": "#692100",
+                "on-secondary": "#ffffff",
                 "background": "#fff8f2",
                 "surface-container": "#f4ede4",
-                "tertiary-container": "#382600",
                 "surface-white": "#FFFFFF",
-                "primary-fixed": "#ffdbcf",
-                "on-surface": "#1e1b16",
-                "on-tertiary": "#ffffff"
-          },
-          "borderRadius": {
-                "DEFAULT": "0.5rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-          },
-          "fontFamily": {
-                "label-sm": ["Inter"],
-                "label-md": ["Inter"],
-                "headline-lg": ["Fraunces"],
-                "body-lg": ["Inter"],
-                "headline-md": ["Fraunces"],
-                "headline-lg-mobile": ["Fraunces"],
-                "display-lg": ["Fraunces"],
-                "body-md": ["Inter"]
-          },
-          "fontSize": {
-                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
-                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
-                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
-                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                "on-surface": "#1e1b16"
           }
-        },
-      },
+        }
+      }
     }
 </script>
 <style>
-    .scan-frame {
-        box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5);
-    }
-    @keyframes scanline {
-        0% { transform: translateY(-100%); }
-        100% { transform: translateY(100%); }
-    }
-    .scan-line {
-        animation: scanline 2.5s linear infinite;
-    }
     .micro-pulse {
         animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
     @keyframes pulse {
         0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.15); opacity: 0.8; }
+        50% { transform: scale(1.08); opacity: 0.9; }
     }
     .voice-wave {
         display: flex;
@@ -146,49 +85,36 @@
     }
 </style>
 </head>
-<body class="bg-background font-body-md text-on-background selection:bg-secondary-container">
-<header class="bg-surface-white sticky top-0 z-50 border-b border-outline-variant flex justify-between items-center w-full px-6 py-2 h-16">
-<div class="flex items-center gap-2">
-<div class="w-10 h-10 rounded-lg overflow-hidden bg-primary-fixed flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">school</span>
+<body class="bg-background font-sans text-on-background selection:bg-secondary-container">
+
+<header class="bg-surface-white sticky top-0 z-50 border-b border-outline-variant flex justify-between items-center w-full px-8 py-3 h-16 shadow-xs">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center font-bold">
+CA
 </div>
 <div>
-<h1 class="font-headline-md text-[18px] leading-tight font-bold text-primary">Chavarria Academy Site</h1>
+<h1 class="text-[17px] leading-tight font-bold text-primary">Chavarria Academy Site</h1>
 <div class="flex items-center gap-1.5">
 <span class="w-2 h-2 rounded-full bg-status-safe"></span>
-<span class="text-[10px] uppercase tracking-wider font-bold text-status-safe">Modo Offline (Local)</span>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<div class="relative">
-<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-surface-container transition-colors border border-outline-variant cursor-pointer" id="langToggle">
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">language</span>
-<span class="text-label-sm text-on-surface-variant uppercase font-bold" id="currentLang">ES</span>
-</button>
-<div class="absolute right-0 mt-2 w-44 bg-surface-white border border-outline-variant rounded-xl shadow-xl hidden z-[60] overflow-hidden" id="langMenu">
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left cursor-pointer" onclick="setLanguage('ES')">
-<span class="text-label-md text-on-surface font-bold">Español</span>
-</button>
+<span class="text-[10px] uppercase tracking-wider font-bold text-status-safe">Modo Offline (Escritorio)</span>
 </div>
 </div>
 </div>
 </header>
 
-<main class="max-w-2xl mx-auto p-6 pb-24">
-<!-- Panel de Control Principal para PC -->
+<main class="max-w-xl mx-auto p-6 pt-10 pb-24">
 <div class="bg-surface-white rounded-3xl p-8 shadow-xl border border-outline-variant">
 <div class="text-center mb-8">
-<h2 class="font-headline-lg text-primary text-[28px] mb-2">Registro de Acceso por Voz y Manual</h2>
-<p class="text-on-surface-variant text-body-md">Haz clic en el micrófono y di el nombre del alumno, o escríbelo directamente.</p>
+<h2 class="text-[26px] font-bold text-primary mb-2">Terminal de Acceso</h2>
+<p class="text-on-surface-variant text-[15px]">Usa el botón de voz para dictar el nombre del alumno o escribe en el campo inferior.</p>
 </div>
 
 <div class="flex flex-col gap-6">
-<!-- Botón de Voz Principal -->
-<button class="relative bg-secondary text-on-secondary h-20 rounded-2xl font-label-md text-lg flex items-center justify-center gap-4 active:scale-[0.99] transition-all shadow-xl overflow-hidden cursor-pointer hover:brightness-105" id="voiceBtn">
+<!-- Botón de Reconocimiento de Voz -->
+<button class="relative bg-secondary text-on-secondary h-20 rounded-2xl text-[16px] font-bold flex items-center justify-center gap-4 active:scale-[0.99] transition-all shadow-lg overflow-hidden cursor-pointer hover:brightness-105" id="voiceBtn">
 <span class="material-symbols-outlined text-3xl" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
-<span id="btnText">Presionar para Hablar (Español México)</span>
-<div class="absolute inset-0 flex items-center justify-center bg-secondary/90 transition-opacity duration-300 opacity-0 pointer-events-none" id="voiceVisualizerOverlay">
+<span id="btnText">Presionar para Hablar (Dictar Nombre)</span>
+<div class="absolute inset-0 bg-secondary/95 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none" id="voiceVisualizerOverlay">
 <div class="voice-wave text-on-secondary scale-125">
 <span style="animation-delay: 0.1s"></span>
 <span style="animation-delay: 0.3s"></span>
@@ -196,37 +122,43 @@
 <span style="animation-delay: 0.4s"></span>
 <span style="animation-delay: 0.5s"></span>
 </div>
-<span class="ml-3 font-bold text-lg" id="listeningLabel">Escuchando... Di el nombre</span>
+<span class="ml-3 font-bold text-lg" id="listeningStatusText">Escuchando... Di el nombre</span>
 </div>
 </button>
 
-<div class="flex items-center gap-4 py-2">
+<!-- Alerta de lo que escuchó el navegador (para depurar si vuelve a fallar) -->
+<div class="hidden bg-surface-container border border-outline-variant rounded-xl p-3 text-center" id="voiceDebugBox">
+<p class="text-[12px] text-on-surface-variant">El navegador escuchó:</p>
+<p class="text-[14px] font-bold text-primary italic" id="voiceTranscriptText">""</p>
+</div>
+
+<div class="flex items-center gap-4 py-1">
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
-<span class="text-label-sm text-on-surface-variant font-bold uppercase tracking-widest">o entrada rápida</span>
+<span class="text-[12px] text-on-surface-variant font-bold uppercase tracking-widest">o entrada manual</span>
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
 </div>
 
-<!-- Entrada Manual -->
+<!-- Entrada por Teclado -->
 <div class="space-y-2">
-<label class="text-label-md text-on-surface font-bold ml-1" for="manualEntry">Escribir Nombre o ID</label>
+<label class="text-[14px] text-on-surface font-bold ml-1" for="manualEntry">Nombre o ID del Alumno</label>
 <div class="relative flex">
-<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-body-md transition-all outline-none" id="manualEntry" placeholder="Ej. Mística, Ximena, Julián..." type="text"/>
+<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-[16px] transition-all outline-none" id="manualEntry" placeholder="Ej. Mística, Ximena, Julián..." type="text"/>
 <button class="ml-2 bg-primary text-on-primary px-6 flex items-center justify-center rounded-xl hover:brightness-110 active:scale-95 transition-all cursor-pointer" id="manualSubmit">
 <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </div>
 </div>
 
-<!-- Registros Locales -->
-<div class="mt-6">
-<div class="flex items-center justify-between mb-4 px-1">
-<h3 class="text-label-md font-bold text-on-surface">Registros Locales (Hoy)</h3>
+<!-- Listado de Registros Locales -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-3 px-1">
+<h3 class="text-[14px] font-bold text-on-surface">Registros Locales (Hoy)</h3>
 <span class="text-[11px] font-bold bg-surface-container px-2.5 py-1 rounded-lg text-on-surface-variant uppercase" id="logCount">0 registros</span>
 </div>
-<div class="space-y-3 max-h-60 overflow-y-auto pr-1" id="recentScans">
-<div class="text-center py-10 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
-<span class="material-symbols-outlined text-outline-variant text-[40px] mb-2">history</span>
-<p class="text-label-sm text-on-surface-variant">No hay registros recientes procesados localmente</p>
+<div class="space-y-3 max-h-56 overflow-y-auto pr-1" id="recentScans">
+<div class="text-center py-8 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
+<span class="material-symbols-outlined text-outline-variant text-[36px] mb-2">history</span>
+<p class="text-[13px] text-on-surface-variant">No hay registros recientes procesados localmente</p>
 </div>
 </div>
 </div>
@@ -234,9 +166,9 @@
 </div>
 </main>
 
-<!-- Success Modal -->
+<!-- Modal de Éxito -->
 <div class="fixed inset-0 z-[100] flex items-center justify-center px-6 pointer-events-none opacity-0 transition-all duration-300" id="successModal">
-<div class="absolute inset-0 bg-primary-container/60 backdrop-blur-sm"></div>
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-xs"></div>
 <div class="bg-surface-white w-full max-w-sm rounded-[32px] p-8 shadow-2xl relative transform scale-90 transition-transform duration-300">
 <div class="flex flex-col items-center text-center">
 <div class="w-24 h-24 rounded-full border-4 border-surface-white shadow-xl overflow-hidden mb-4 bg-surface-container">
@@ -244,20 +176,20 @@
 </div>
 <div class="flex items-center gap-1.5 text-status-safe mb-2">
 <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="font-bold text-label-md uppercase tracking-wide">Registro Exitoso</span>
+<span class="font-bold text-[14px] uppercase tracking-wide">Registro Exitoso</span>
 </div>
-<h2 class="font-headline-md text-[24px] text-primary mb-1" id="studentName">Mística Rodríguez</h2>
-<p class="text-on-surface-variant font-label-md mb-6" id="studentDetail">Grado 5 • Sección B</p>
-<div class="w-full bg-status-safe text-white py-4 rounded-2xl font-bold text-label-md mb-2 shadow-md">ENTRADA REGISTRADA</div>
+<h2 class="text-[22px] font-bold text-primary mb-1" id="studentName">Mística Rodríguez</h2>
+<p class="text-on-surface-variant text-[14px] mb-6" id="studentDetail">Grado 5 • Sección B</p>
+<div class="w-full bg-status-safe text-white py-3.5 rounded-2xl font-bold text-[14px] mb-2 shadow-md">ENTRADA REGISTRADA</div>
 <p class="text-[12px] text-on-surface-variant mt-2" id="modalTime">Procesado localmente • 09:12 AM</p>
 </div>
 </div>
 </div>
 
-<!-- Offline Toast -->
-<div class="fixed top-6 left-1/2 -translate-x-1/2 z-[110] offline-badge text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 pointer-events-none opacity-0 translate-y-[-20px] transition-all duration-400" id="offlineToast">
-<span class="material-symbols-outlined text-[20px]">cloud_off</span>
-<span class="text-label-md font-bold">Sincronización pendiente - Modo Offline</span>
+<!-- Notificación Flotante Offline -->
+<div class="fixed top-6 left-1/2 -translate-x-1/2 z-[110] offline-badge text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-3 pointer-events-none opacity-0 translate-y-[-20px] transition-all duration-400" id="offlineToast">
+<span class="material-symbols-outlined text-[18px]">cloud_off</span>
+<span class="text-[13px] font-bold">Sincronización pendiente - Modo Offline</span>
 </div>
 
 <script>
@@ -274,10 +206,21 @@
     function logAccess(rawInput) {
         if (!rawInput) return;
         
+        // Mostrar en la interfaz qué fue lo que captó el navegador para que no queden dudas
+        const debugBox = document.getElementById('voiceDebugBox');
+        const transcriptText = document.getElementById('voiceTranscriptText');
+        debugBox.classList.remove('hidden');
+        transcriptText.textContent = `"${rawInput}"`;
+
         let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
-        if (query.includes("jimena") || query.includes("simena") || query.includes("ximena")) {
+        // Mapeo exhaustivo de variantes fonéticas locas que inventa Chrome/Edge
+        if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
             query = "ximena";
+        } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
+            query = "mistica";
+        } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("polian") || query.includes("row") || query.includes("tre")) {
+            query = "julian";
         }
 
         let matchedStudent = null;
@@ -293,11 +236,8 @@
         }
 
         if (!matchedStudent) {
-            matchedStudent = { 
-                name: rawInput, 
-                grade: 'Visitante / Externo', 
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' 
-            };
+            alert(`El audio se interpretó como "${rawInput}" y no coincide con ningún alumno. Intenta de nuevo o usa el teclado.`);
+            return;
         }
         
         const timestamp = new Date();
@@ -321,7 +261,7 @@
         if (localLogs.length > 0) {
             emptyState.classList.add('hidden');
             container.innerHTML = localLogs.map(log => `
-                <div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between p-3.5 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-xs">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
                             <img src="${log.img}" class="w-full h-full object-cover" />
@@ -331,7 +271,7 @@
                             <p class="text-[11px] text-on-surface-variant font-medium">${log.time} • ${log.grade}</p>
                         </div>
                     </div>
-                    <span class="px-3 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[11px] font-bold">ENTRADA</span>
+                    <span class="px-2.5 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[11px] font-bold">ENTRADA</span>
                 </div>
             `).join('');
         }
@@ -436,7 +376,7 @@
             }
         } else {
             resetVoiceState();
-            alert("Tu navegador de escritorio no soporta reconocimiento de voz nativo. Utiliza el campo manual.");
+            alert("Tu navegador no soporta reconocimiento de voz nativo. Utiliza el campo manual.");
         }
     });
 
