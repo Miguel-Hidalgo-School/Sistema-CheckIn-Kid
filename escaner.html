@@ -5,6 +5,8 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Chavarria Academy Site | Registro de Acceso</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Librería externa para leer códigos QR desde la cámara -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
@@ -102,60 +104,77 @@ CA
 </div>
 </header>
 
-<main class="max-w-xl mx-auto p-6 pt-10 pb-24">
+<main class="max-w-xl mx-auto p-6 pt-8 pb-24">
 <div class="bg-surface-white rounded-3xl p-8 shadow-xl border border-outline-variant">
-<div class="text-center mb-8">
+<div class="text-center mb-6">
 <h2 class="text-[26px] font-bold text-primary mb-2">Terminal de Acceso</h2>
-<p class="text-on-surface-variant text-[15px]">Usa el botón de voz para dictar el nombre del alumno o escribe en el campo inferior.</p>
+<p class="text-on-surface-variant text-[15px]">Escanea el código QR del alumno, usa el dictado de voz o escribe manualmente.</p>
 </div>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-5">
+<!-- Sección de Escáner QR con Cámara -->
+<div class="relative bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant p-3 text-center">
+<div id="scannerContainer" class="relative w-full h-48 bg-primary/5 rounded-xl overflow-hidden flex items-center justify-center">
+<video id="qrVideo" class="absolute inset-0 w-full h-full object-cover" muted playsinline></video>
+<canvas id="qrCanvas" class="hidden"></canvas>
+<div id="scannerPlaceholder" class="flex flex-col items-center justify-center p-4">
+<span class="material-symbols-outlined text-outline text-[40px] mb-1">qr_code_scanner</span>
+<p class="text-[13px] text-on-surface-variant font-medium">Cámara de escáner inactiva</p>
+</div>
+<div class="absolute inset-0 border-2 border-dashed border-secondary/40 rounded-xl pointer-events-none m-4"></div>
+</div>
+<button id="toggleScannerBtn" class="mt-3 w-full bg-primary text-on-primary py-3 rounded-xl font-bold text-[14px] flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99] transition-all cursor-pointer shadow-sm">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+<span id="scannerBtnText">Activar Escáner QR</span>
+</button>
+</div>
+
 <!-- Botón de Reconocimiento de Voz -->
-<button class="relative bg-secondary text-on-secondary h-20 rounded-2xl text-[16px] font-bold flex items-center justify-center gap-4 active:scale-[0.99] transition-all shadow-lg overflow-hidden cursor-pointer hover:brightness-105" id="voiceBtn">
-<span class="material-symbols-outlined text-3xl" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
-<span id="btnText">Presionar para Hablar (Dictar Nombre)</span>
+<button class="relative bg-secondary text-on-secondary h-16 rounded-2xl text-[15px] font-bold flex items-center justify-center gap-3 active:scale-[0.99] transition-all shadow-md overflow-hidden cursor-pointer hover:brightness-105" id="voiceBtn">
+<span class="material-symbols-outlined text-2xl" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span id="btnText">Dictar Nombre por Voz</span>
 <div class="absolute inset-0 bg-secondary/95 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none" id="voiceVisualizerOverlay">
-<div class="voice-wave text-on-secondary scale-125">
+<div class="voice-wave text-on-secondary scale-110">
 <span style="animation-delay: 0.1s"></span>
 <span style="animation-delay: 0.3s"></span>
 <span style="animation-delay: 0.2s"></span>
 <span style="animation-delay: 0.4s"></span>
 <span style="animation-delay: 0.5s"></span>
 </div>
-<span class="ml-3 font-bold text-lg" id="listeningStatusText">Escuchando... Di el nombre</span>
+<span class="ml-3 font-bold text-base" id="listeningStatusText">Escuchando...</span>
 </div>
 </button>
 
-<!-- Alerta de lo que escuchó el navegador (para depurar si vuelve a fallar) -->
-<div class="hidden bg-surface-container border border-outline-variant rounded-xl p-3 text-center" id="voiceDebugBox">
-<p class="text-[12px] text-on-surface-variant">El navegador escuchó:</p>
-<p class="text-[14px] font-bold text-primary italic" id="voiceTranscriptText">""</p>
+<!-- Alerta de lo que escuchó el navegador -->
+<div class="hidden bg-surface-container border border-outline-variant rounded-xl p-2.5 text-center" id="voiceDebugBox">
+<p class="text-[11px] text-on-surface-variant">El navegador escuchó:</p>
+<p class="text-[13px] font-bold text-primary italic" id="voiceTranscriptText">""</p>
 </div>
 
-<div class="flex items-center gap-4 py-1">
+<div class="flex items-center gap-3 py-0.5">
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
-<span class="text-[12px] text-on-surface-variant font-bold uppercase tracking-widest">o entrada manual</span>
+<span class="text-[11px] text-on-surface-variant font-bold uppercase tracking-widest">o entrada manual</span>
 <div class="h-[1px] flex-1 bg-outline-variant"></div>
 </div>
 
 <!-- Entrada por Teclado -->
-<div class="space-y-2">
-<label class="text-[14px] text-on-surface font-bold ml-1" for="manualEntry">Nombre o ID del Alumno</label>
+<div class="space-y-1.5">
+<label class="text-[13px] text-on-surface font-bold ml-1" for="manualEntry">Nombre o ID del Alumno</label>
 <div class="relative flex">
-<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-[16px] transition-all outline-none" id="manualEntry" placeholder="Ej. Mística, Ximena, Julián..." type="text"/>
-<button class="ml-2 bg-primary text-on-primary px-6 flex items-center justify-center rounded-xl hover:brightness-110 active:scale-95 transition-all cursor-pointer" id="manualSubmit">
+<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-4 py-3 text-[15px] transition-all outline-none" id="manualEntry" placeholder="Ej. mistica, ximena, julian..." type="text"/>
+<button class="ml-2 bg-primary text-on-primary px-5 flex items-center justify-center rounded-xl hover:brightness-110 active:scale-95 transition-all cursor-pointer" id="manualSubmit">
 <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </div>
 </div>
 
 <!-- Listado de Registros Locales -->
-<div class="mt-4">
+<div class="mt-2">
 <div class="flex items-center justify-between mb-3 px-1">
 <h3 class="text-[14px] font-bold text-on-surface">Registros Locales (Hoy)</h3>
 <span class="text-[11px] font-bold bg-surface-container px-2.5 py-1 rounded-lg text-on-surface-variant uppercase" id="logCount">0 registros</span>
 </div>
-<div class="space-y-3 max-h-56 overflow-y-auto pr-1" id="recentScans">
+<div class="space-y-3 max-h-52 overflow-y-auto pr-1" id="recentScans">
 <div class="text-center py-8 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
 <span class="material-symbols-outlined text-outline-variant text-[36px] mb-2">history</span>
 <p class="text-[13px] text-on-surface-variant">No hay registros recientes procesados localmente</p>
@@ -203,18 +222,13 @@ CA
     let isListening = false;
     let recognitionInstance = null;
 
+    // Lógica central para procesar cualquier entrada (QR, Voz o Texto)
     function logAccess(rawInput) {
         if (!rawInput) return;
         
-        // Mostrar en la interfaz qué fue lo que captó el navegador para que no queden dudas
-        const debugBox = document.getElementById('voiceDebugBox');
-        const transcriptText = document.getElementById('voiceTranscriptText');
-        debugBox.classList.remove('hidden');
-        transcriptText.textContent = `"${rawInput}"`;
-
         let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
-        // Mapeo exhaustivo de variantes fonéticas locas que inventa Chrome/Edge
+        // Manejo de variantes fonéticas locas del navegador por voz
         if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
             query = "ximena";
         } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
@@ -236,7 +250,7 @@ CA
         }
 
         if (!matchedStudent) {
-            alert(`El audio se interpretó como "${rawInput}" y no coincide con ningún alumno. Intenta de nuevo o usa el teclado.`);
+            alert(`No se encontró ningún alumno asociado a: "${rawInput}"`);
             return;
         }
         
@@ -261,7 +275,7 @@ CA
         if (localLogs.length > 0) {
             emptyState.classList.add('hidden');
             container.innerHTML = localLogs.map(log => `
-                <div class="flex items-center justify-between p-3.5 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-xs">
+                <div class="flex items-center justify-between p-3 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-xs">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
                             <img src="${log.img}" class="w-full h-full object-cover" />
@@ -308,6 +322,80 @@ CA
         }, 2500);
     }
 
+    // --- CÁMARA Y ESCÁNER QR ---
+    const videoElement = document.getElementById('qrVideo');
+    const canvasElement = document.getElementById('qrCanvas');
+    const canvasContext = canvasElement.getContext('2d', { willReadFrequently: true });
+    const toggleScannerBtn = document.getElementById('toggleScannerBtn');
+    const scannerBtnText = document.getElementById('scannerBtnText');
+    const scannerPlaceholder = document.getElementById('scannerPlaceholder');
+    let mediaStream = null;
+    let scanningActive = false;
+
+    toggleScannerBtn.addEventListener('click', () => {
+        if (scanningActive) {
+            stopScanner();
+        } else {
+            startScanner();
+        }
+    });
+
+    function startScanner() {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => {
+                mediaStream = stream;
+                videoElement.srcObject = stream;
+                videoElement.setAttribute('playsinline', true);
+                videoElement.play();
+                scanningActive = true;
+                scannerPlaceholder.classList.add('hidden');
+                scannerBtnText.textContent = 'Detener Escáner QR';
+                toggleScannerBtn.classList.replace('bg-primary', 'bg-error');
+                requestAnimationFrame(tickScanner);
+            })
+            .catch(err => {
+                alert("No se pudo acceder a la cámara para el escaneo QR.");
+            });
+    }
+
+    function stopScanner() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+        scanningActive = false;
+        videoElement.srcObject = null;
+        scannerPlaceholder.classList.remove('hidden');
+        scannerBtnText.textContent = 'Activar Escáner QR';
+        toggleScannerBtn.classList.replace('bg-error', 'bg-primary');
+    }
+
+    function tickScanner() {
+        if (!scanningActive) return;
+        if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+            canvasElement.height = videoElement.videoHeight;
+            canvasElement.width = videoElement.videoWidth;
+            canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+            const imageData = canvasContext.getImageData(0, 0, canvasElement.width, canvasElement.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' });
+            
+            if (code) {
+                logAccess(code.data);
+                // Pausa breve de lectura para evitar múltiples lecturas seguidas del mismo código
+                scanningActive = false;
+                setTimeout(() => {
+                    if (mediaStream) {
+                        scanningActive = true;
+                        requestAnimationFrame(tickScanner);
+                    }
+                }, 2000);
+                return;
+            }
+        }
+        requestAnimationFrame(tickScanner);
+    }
+
+    // --- RECONOCIMIENTO DE VOZ ---
     const voiceBtn = document.getElementById('voiceBtn');
     const visualizerOverlay = document.getElementById('voiceVisualizerOverlay');
     let recognitionTimeout = null;
@@ -340,6 +428,12 @@ CA
                     hasFinished = true;
                     clearTimeout(recognitionTimeout);
                     const speechResult = event.results[0][0].transcript;
+                    
+                    const debugBox = document.getElementById('voiceDebugBox');
+                    const transcriptText = document.getElementById('voiceTranscriptText');
+                    debugBox.classList.remove('hidden');
+                    transcriptText.textContent = `"${speechResult}"`;
+
                     resetVoiceState();
                     logAccess(speechResult);
                 };
@@ -351,24 +445,16 @@ CA
                 };
 
                 recognitionInstance.onend = () => {
-                    if (!hasFinished) {
-                        resetVoiceState();
-                    }
+                    if (!hasFinished) resetVoiceState();
                 };
 
                 recognitionTimeout = setTimeout(() => {
-                    if (!hasFinished && isListening) {
-                        resetVoiceState();
-                    }
+                    if (!hasFinished && isListening) resetVoiceState();
                 }, 6000);
 
                 setTimeout(() => {
-                    try {
-                        recognitionInstance.start();
-                    } catch (e) {
-                        clearTimeout(recognitionTimeout);
-                        resetVoiceState();
-                    }
+                    try { recognitionInstance.start(); } 
+                    catch (e) { clearTimeout(recognitionTimeout); resetVoiceState(); }
                 }, 100);
                 return;
             } catch (e) {
@@ -376,7 +462,7 @@ CA
             }
         } else {
             resetVoiceState();
-            alert("Tu navegador no soporta reconocimiento de voz nativo. Utiliza el campo manual.");
+            alert("Tu navegador no soporta reconocimiento de voz nativo.");
         }
     });
 
@@ -391,6 +477,7 @@ CA
         }
     }
 
+    // --- ENTRADA MANUAL ---
     document.getElementById('manualSubmit').addEventListener('click', () => {
         const input = document.getElementById('manualEntry');
         if (input.value.trim()) {
