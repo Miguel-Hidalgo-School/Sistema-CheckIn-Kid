@@ -1,564 +1,81 @@
 <!DOCTYPE html>
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Chavarria Academy Site | Escáner de Acceso</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                "on-tertiary-fixed-variant": "#5e4200",
-                "inverse-surface": "#33302a",
-                "on-surface-variant": "#504441",
-                "on-tertiary-fixed": "#271900",
-                "outline": "#827470",
-                "on-tertiary-container": "#bb8708",
-                "surface-container-low": "#faf2e9",
-                "error-container": "#ffdad6",
-                "status-warning": "#F4B942",
-                "surface-bright": "#fff8f2",
-                "on-error-container": "#93000a",
-                "tertiary": "#1e1300",
-                "primary-container": "#3a241c",
-                "inverse-primary": "#e3bfb2",
-                "error": "#ba1a1a",
-                "secondary-container": "#ff7e49",
-                "on-background": "#1e1b16",
-                "surface-dim": "#e0d9d0",
-                "on-primary": "#ffffff",
-                "outline-variant": "#d3c3be",
-                "primary-fixed-dim": "#e3bfb2",
-                "surface-container-high": "#efe7de",
-                "surface": "#fff8f2",
-                "tertiary-fixed-dim": "#f8bd45",
-                "status-safe": "#2D5A27",
-                "secondary-fixed-dim": "#ffb599",
-                "secondary": "#a53c08",
-                "surface-container-lowest": "#ffffff",
-                "primary": "#231009",
-                "on-primary-fixed-variant": "#5a4138",
-                "on-secondary-fixed-variant": "#802a00",
-                "on-primary-fixed": "#2a160f",
-                "on-secondary": "#ffffff",
-                "surface-variant": "#e9e1d9",
-                "secondary-fixed": "#ffdbce",
-                "surface-tint": "#74584e",
-                "on-error": "#ffffff",
-                "on-secondary-fixed": "#370e00",
-                "text-high-contrast": "#1A100C",
-                "surface-container-highest": "#e9e1d9",
-                "on-primary-container": "#aa897e",
-                "tertiary-fixed": "#ffdea7",
-                "inverse-on-surface": "#f7f0e7",
-                "on-secondary-container": "#692100",
-                "background": "#fff8f2",
-                "surface-container": "#f4ede4",
-                "tertiary-container": "#382600",
-                "surface-white": "#FFFFFF",
-                "primary-fixed": "#ffdbcf",
-                "on-surface": "#1e1b16",
-                "on-tertiary": "#ffffff"
-            },
-            "borderRadius": {
-                "DEFAULT": "0.5rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-            },
-            "spacing": {
-                "section-gap": "40px",
-                "container-margin": "24px",
-                "mobile-margin": "16px",
-                "base": "8px",
-                "gutter": "16px"
-            },
-            "fontFamily": {
-                "label-sm": ["Inter"],
-                "label-md": ["Inter"],
-                "headline-lg": ["Fraunces"],
-                "body-lg": ["Inter"],
-                "headline-md": ["Fraunces"],
-                "headline-lg-mobile": ["Fraunces"],
-                "display-lg": ["Fraunces"],
-                "body-md": ["Inter"]
-            },
-            "fontSize": {
-                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
-                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
-                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
-                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
-                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
-            }
-          },
-        },
-      }
-    </script>
-<style>
-        .scan-frame {
-            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5);
-        }
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-        .scan-line {
-            animation: scanline 2.5s linear infinite;
-        }
-        .micro-pulse {
-            animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.15); opacity: 0.8; }
-        }
-        .voice-wave {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            height: 24px;
-        }
-        .voice-wave span {
-            width: 3px;
-            background-color: currentColor;
-            border-radius: 99px;
-            animation: wave 0.5s ease-in-out infinite alternate;
-        }
-        @keyframes wave {
-            from { height: 4px; }
-            to { height: 20px; }
-        }
-        body {
-            min-height: 100dvh;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .offline-badge {
-            background: linear-gradient(90deg, #2D5A27 0%, #3e7b36 100%);
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f4ede4;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d3c3be;
-            border-radius: 10px;
-        }
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>Chavarria Academy Site | Escáner de Acceso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <style>
+        .scan-line { animation: scanline 2.5s linear infinite; }
+        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        .micro-pulse { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .voice-wave span { width: 3px; background-color: currentColor; border-radius: 99px; animation: wave 0.5s infinite alternate; }
+        @keyframes wave { from { height: 4px; } to { height: 20px; } }
     </style>
 </head>
-<body class="bg-background font-body-md text-on-background selection:bg-secondary-container">
-<header class="bg-surface-white sticky top-0 z-50 border-b border-outline-variant flex justify-between items-center w-full px-container-margin py-base h-16">
-<div class="flex items-center gap-2">
-<div class="w-10 h-10 rounded-lg overflow-hidden bg-primary-fixed flex items-center justify-center">
-<img alt="Chavarria Academy Site Logo" class="w-full h-full object-cover" src="assets/logo.png"/>
-</div>
-<div>
-<h1 class="font-headline-md text-[18px] leading-tight font-bold text-primary">Chavarria Academy Site</h1>
-<div class="flex items-center gap-1.5">
-<span class="w-2 h-2 rounded-full bg-status-safe"></span>
-<span class="text-[10px] uppercase tracking-wider font-bold text-status-safe" id="statusIndicator">Modo Offline (Local)</span>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<div class="relative">
-<button class="flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-surface-container transition-colors border border-outline-variant" id="langToggle">
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">language</span>
-<span class="text-label-sm text-on-surface-variant uppercase font-bold" id="currentLang">ES</span>
-</button>
-<div class="absolute right-0 mt-2 w-44 bg-surface-white border border-outline-variant rounded-xl shadow-xl hidden z-[60] overflow-hidden" id="langMenu">
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('ES')">
-<span class="text-label-md text-on-surface font-bold">Español</span>
-</button>
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('EN')">
-<span class="text-label-md text-on-surface">English</span>
-</button>
-<button class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-low transition-colors text-left" onclick="setLanguage('PT')">
-<span class="text-label-md text-on-surface">Português</span>
-</button>
-</div>
-</div>
-<div class="w-9 h-9 rounded-full overflow-hidden border border-outline-variant bg-surface-container shadow-sm">
-<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY"/>
-</div>
-</div>
-</header>
-<main class="pb-24">
-<!-- Viewfinder Area -->
-<section class="relative w-full aspect-[4/5] md:max-w-md md:mx-auto overflow-hidden bg-neutral-900 flex items-center justify-center">
-<div class="absolute inset-0 z-0">
-<img alt="Fondo Cámara" class="w-full h-full object-cover opacity-50 grayscale-[0.3]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8"/>
-</div>
-<div class="relative z-10 w-64 h-64">
-<div class="scan-frame absolute inset-0 rounded-3xl border-2 border-white/20"></div>
-<div class="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-secondary rounded-tl-2xl"></div>
-<div class="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-secondary rounded-tr-2xl"></div>
-<div class="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-secondary rounded-bl-2xl"></div>
-<div class="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-secondary rounded-br-2xl"></div>
-<div class="scan-line absolute w-full h-0.5 bg-gradient-to-r from-transparent via-secondary to-transparent shadow-[0_0_15px_rgba(165,60,8,0.8)]"></div>
-<div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 opacity-0" id="voiceVisualizer">
-<div class="bg-primary/60 backdrop-blur-md rounded-full p-8 scale-110">
-<div class="voice-wave text-secondary">
-<span style="animation-delay: 0.1s"></span>
-<span style="animation-delay: 0.3s"></span>
-<span style="animation-delay: 0.2s"></span>
-<span style="animation-delay: 0.4s"></span>
-<span style="animation-delay: 0.5s"></span>
-</div>
-</div>
-</div>
-</div>
-<div class="absolute bottom-10 left-0 right-0 text-center z-20 px-6">
-<div class="bg-black/60 backdrop-blur-md inline-block px-5 py-2.5 rounded-full border border-white/10">
-<p class="text-white text-label-md" id="instructionText">Di tu nombre (ej. 'Mística') para identificar tu huella de voz</p>
-</div>
-</div>
-</section>
-<!-- Controls Area -->
-<section class="px-mobile-margin -mt-8 relative z-30">
-<div class="bg-surface-white rounded-t-[32px] p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.12)]">
-<div class="flex flex-col gap-6">
-<button class="relative bg-secondary text-on-secondary h-16 rounded-2xl font-label-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-lg overflow-hidden" id="voiceBtn">
-<span class="material-symbols-outlined" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
-<span id="btnText">Registrar por Voz</span>
-<div class="absolute inset-0 bg-primary/20 hidden" id="btnLoadingOverlay"></div>
-</button>
-<div class="flex items-center gap-4 py-2">
-<div class="h-[1px] flex-1 bg-outline-variant"></div>
-<span class="text-label-sm text-on-surface-variant font-bold uppercase tracking-widest" id="orLabel">o</span>
-<div class="h-[1px] flex-1 bg-outline-variant"></div>
-</div>
-<div class="space-y-2">
-<label class="text-label-md text-on-surface font-bold ml-1" for="manualEntry" id="manualLabel">Entrada Manual</label>
-<div class="relative">
-<input class="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary focus:bg-surface-white rounded-xl px-5 py-4 text-body-md transition-all outline-none" id="manualEntry" placeholder="ID o Nombre del Alumno" type="text"/>
-<button class="absolute right-2 top-2 bottom-2 bg-primary text-on-primary w-12 flex items-center justify-center rounded-lg hover:brightness-110 active:scale-95 transition-all" id="manualSubmit">
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-</div>
-<div class="mt-4">
-<div class="flex items-center justify-between mb-4 px-1">
-<h3 class="text-label-md font-bold text-on-surface" id="recentTitle">Registros Locales (Hoy)</h3>
-<span class="text-[10px] font-bold bg-surface-container px-2 py-1 rounded text-on-surface-variant uppercase" id="logCount">0 logs</span>
-</div>
-<div class="space-y-3" id="recentScans">
-<div class="text-center py-8 bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant" id="emptyLogs">
-<span class="material-symbols-outlined text-outline-variant text-[40px] mb-2">history</span>
-<p class="text-label-sm text-on-surface-variant" id="emptyMsg">No hay registros recientes procesados localmente</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Success Modal -->
-<div class="fixed inset-0 z-[100] flex items-center justify-center px-6 pointer-events-none opacity-0 transition-all duration-300" id="successModal">
-<div class="absolute inset-0 bg-primary-container/60 backdrop-blur-sm"></div>
-<div class="bg-surface-white w-full max-w-sm rounded-[32px] p-8 shadow-2xl relative transform scale-90 transition-transform duration-300">
-<div class="flex flex-col items-center text-center">
-<div class="w-24 h-24 rounded-full border-4 border-surface-white shadow-xl overflow-hidden mb-4 bg-surface-container">
-<img alt="Alumno" class="w-full h-full object-cover" id="studentImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDScBPjigfsW0bDZ7MR3GDC0fpzWcvGlk7U58IvojyriBxB-YophTfz5RD4Q0o6Es2BS7NVoUfZPjO5wwsBeuUowaVA_fEg3tMmDj-4y3TUGWaC1VcrgnJKSfjv6ZvHeD4UkFT-Cw-kOqL3038TfmY4EGNBDk_seeQotTugpN14DCCtd62Z6CNHtQnABmYqR8n4PkePQUM8fPsT-AC_FOGZDLqDrbgE8qF7dFMxvWw0KnDjntktPlA2"/>
-</div>
-<div class="flex items-center gap-1.5 text-status-safe mb-2">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="font-bold text-label-md uppercase tracking-wide" id="modalStatus">Registro Exitoso</span>
-</div>
-<h2 class="font-headline-md text-[24px] text-primary mb-1" id="studentName">Mística Rodríguez</h2>
-<p class="text-on-surface-variant font-label-md mb-6" id="studentDetail">Grado 5 • Sección B</p>
-<div class="w-full bg-status-safe text-white py-4 rounded-2xl font-bold text-label-md mb-2 shadow-md" id="typeLabel">ENTRADA REGISTRADA</div>
-<p class="text-[12px] text-on-surface-variant mt-2" id="modalTime">Procesado localmente • 09:12 AM</p>
-</div>
-</div>
-</div>
-<!-- Offline Recognition Toast -->
-<div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] offline-badge text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 pointer-events-none opacity-0 translate-y-[-20px] transition-all duration-400" id="offlineToast">
-<span class="material-symbols-outlined text-[20px]">cloud_off</span>
-<span class="text-label-md font-bold" id="toastMsg">Sincronización pendiente - Modo Offline</span>
-</div>
-<!-- Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe h-20 bg-surface-white border-t border-outline-variant shadow-[0_-2px_15px_rgba(0,0,0,0.05)] md:hidden z-50">
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="index.html">
-<span class="material-symbols-outlined">home</span>
-<span class="text-[10px] font-bold">Inicio</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 bg-secondary-container text-on-secondary-container px-5 py-2.5 rounded-2xl" href="escaner.html">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic_external_on</span>
-<span class="text-[10px] font-bold">Escáner</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="registro.html">
-<span class="material-symbols-outlined">group</span>
-<span class="text-[10px] font-bold">Alumnos</span>
-</a>
-<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant px-3 py-2 rounded-xl" href="encuestas.html">
-<span class="material-symbols-outlined">assignment</span>
-<span class="text-[10px] font-bold">Reportes</span>
-</a>
-</nav>
-<script>
-    const STUDENTS_DB = {
-        'mistica': { name: 'Mística Rodríguez', grade: '5º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDScBPjigfsW0bDZ7MR3GDC0fpzWcvGlk7U58IvojyriBxB-YophTfz5RD4Q0o6Es2BS7NVoUfZPjO5wwsBeuUowaVA_fEg3tMmDj-4y3TUGWaC1VcrgnJKSfjv6ZvHeD4UkFT-Cw-kOqL3038TfmY4EGNBDk_seeQotTugpN14DCCtd62Z6CNHtQnABmYqR8n4PkePQUM8fPsT-AC_FOGZDLqDrbgE8qF7dFMxvWw0KnDjntktPlA2' },
-        'ximena': { name: 'Ximena Vázquez', grade: '6º A', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' },
-        'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8' }
-    };
+<body class="bg-white font-sans text-slate-900">
+    <main class="max-w-md mx-auto p-6">
+        <section class="relative w-full aspect-[4/5] bg-black rounded-3xl overflow-hidden flex items-center justify-center mb-6">
+            <div class="scan-line absolute w-full h-0.5 bg-orange-600 shadow-[0_0_15px_rgba(234,88,12,0.8)]"></div>
+            <div id="voiceVisualizer" class="opacity-0 transition-opacity absolute inset-0 flex items-center justify-center bg-black/50">
+                <div class="flex gap-2 text-white"><span style="animation-delay: 0.1s"></span><span style="animation-delay: 0.3s"></span><span style="animation-delay: 0.2s"></span></div>
+            </div>
+        </section>
 
-    const TRANSLATIONS = {
-        ES: {
-            instruction: "Di tu nombre (ej. 'Mística') para identificar tu huella de voz",
-            btnText: "Registrar por Voz",
-            btnListening: "Identificando huella...",
-            orLabel: "o",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID o Nombre del Alumno",
-            recentTitle: "Registros Locales (Hoy)",
-            emptyMsg: "No hay registros recientes procesados localmente",
-            success: "Registro Exitoso",
-            entry: "ENTRADA REGISTRADA",
-            exit: "SALIDA REGISTRADA",
-            processed: "Procesado localmente",
-            toastOffline: "Sincronización pendiente - Modo Offline"
-        },
-        EN: {
-            instruction: "Say your name (e.g., 'Mistica') to identify your voiceprint",
-            btnText: "Voice Registration",
-            btnListening: "Identifying print...",
-            orLabel: "or",
-            manualLabel: "Manual Entry",
-            placeholder: "Student ID or Name",
-            recentTitle: "Local Records (Today)",
-            emptyMsg: "No recent local logs processed",
-            success: "Registration Success",
-            entry: "CHECK-IN RECORDED",
-            exit: "CHECK-OUT RECORDED",
-            processed: "Locally processed",
-            toastOffline: "Sync pending - Offline Mode"
-        },
-        PT: {
-            instruction: "Diga seu nome (ex: 'Mística') para identificar sua voz",
-            btnText: "Registrar por Voz",
-            btnListening: "Identificando...",
-            orLabel: "ou",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID ou Nome do Aluno",
-            recentTitle: "Registros Locais (Hoje)",
-            emptyMsg: "Nenhum registro recente processado localmente",
-            success: "Sucesso",
-            entry: "ENTRADA REGISTRADA",
-            exit: "SAÍDA REGISTRADA",
-            processed: "Processado localmente",
-            toastOffline: "Sincronização pendente - Modo Offline"
-        }
-    };
+        <button id="voiceBtn" class="w-full bg-orange-600 text-white h-16 rounded-2xl flex items-center justify-center gap-3 font-bold shadow-lg">
+            <span class="material-symbols-outlined">mic</span>
+            <span id="btnText">Registrar por Voz</span>
+        </button>
+    </main>
 
-    let currentLang = 'ES';
-    let localLogs = [];
+    <script>
+        const STUDENTS_DB = {
+            'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' },
+            'mistica': { name: 'Mística Rodríguez', grade: '5º B', img: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' },
+            'ximena': { name: 'Ximena Vázquez', grade: '6º A', img: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }
+        };
 
-    function setLanguage(lang) {
-        currentLang = lang;
-        const t = TRANSLATIONS[lang];
-        document.getElementById('currentLang').textContent = lang;
-        document.getElementById('instructionText').textContent = t.instruction;
-        document.getElementById('btnText').textContent = t.btnText;
-        document.getElementById('orLabel').textContent = t.orLabel;
-        document.getElementById('manualLabel').textContent = t.manualLabel;
-        document.getElementById('manualEntry').placeholder = t.placeholder;
-        document.getElementById('recentTitle').textContent = t.recentTitle;
-        document.getElementById('emptyMsg').textContent = t.emptyMsg;
-        document.getElementById('langMenu').classList.add('hidden');
-    }
+        const voiceBtn = document.getElementById('voiceBtn');
+        const visualizer = document.getElementById('voiceVisualizer');
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    document.getElementById('langToggle').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('langMenu').classList.toggle('hidden');
-    });
+        function logAccess(textoCapturado) {
+            // Limpieza inteligente: quita acentos, minúsculas y espacios (ej: "Jule An" -> "julean")
+            const query = textoCapturado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
+            
+            let student = null;
+            for (let key in STUDENTS_DB) {
+                const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                // Compara si lo que escuchó contiene el nombre o viceversa
+                if (query.includes(normalizedKey) || normalizedKey.includes(query)) {
+                    student = STUDENTS_DB[key];
+                    break;
+                }
+            }
 
-    window.addEventListener('click', () => {
-        const menu = document.getElementById('langMenu');
-        if (menu) menu.classList.add('hidden');
-    });
-
-    function logAccess(studentKey, manualInput = null) {
-        const query = studentKey.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        
-        let student = null;
-        for (let key in STUDENTS_DB) {
-            const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedKey === query || STUDENTS_DB[key].name.toLowerCase().includes(query)) {
-                student = STUDENTS_DB[key];
-                break;
+            if (student) {
+                alert("¡Bienvenido/a " + student.name + "!");
+            } else {
+                alert("Alumno no encontrado: " + textoCapturado);
             }
         }
 
-        if (!student) {
-            student = { 
-                name: manualInput || studentKey, 
-                grade: 'Visitante / Externo', 
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' 
+        voiceBtn.addEventListener('click', () => {
+            if (!SpeechRecognition) return alert("Navegador no compatible.");
+            const rec = new SpeechRecognition();
+            rec.lang = 'es-MX';
+            rec.start();
+            visualizer.classList.remove('opacity-0');
+            document.getElementById('btnText').textContent = "Escuchando...";
+
+            rec.onresult = (e) => logAccess(e.results[0][0].transcript);
+            rec.onend = () => {
+                visualizer.classList.add('opacity-0');
+                document.getElementById('btnText').textContent = "Registrar por Voz";
             };
-        }
-        
-        const timestamp = new Date();
-        const timeStr = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
-        const log = { ...student, time: timeStr, id: Date.now() };
-        localLogs.unshift(log);
-        
-        renderLogs();
-        showSuccessModal(log);
-    }
-
-    function renderLogs() {
-        const container = document.getElementById('recentScans');
-        const countBadge = document.getElementById('logCount');
-        const emptyState = document.getElementById('emptyLogs');
-        
-        countBadge.textContent = `${localLogs.length} logs`;
-        
-        if (localLogs.length > 0) {
-            emptyState.classList.add('hidden');
-            container.innerHTML = localLogs.map(log => `
-                <div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-2xl animate-in slide-in-from-top-4 duration-300 shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
-                            <img src="${log.img}" class="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <p class="font-bold text-on-surface text-[14px]">${log.name}</p>
-                            <p class="text-[11px] text-on-surface-variant font-medium">${log.time} • ${log.grade}</p>
-                        </div>
-                    </div>
-                    <span class="px-2.5 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[10px] font-bold">ENTRADA</span>
-                </div>
-            `).join('');
-        }
-    }
-
-    function showSuccessModal(log) {
-        const modal = document.getElementById('successModal');
-        const card = modal.querySelector('div:last-child');
-        const t = TRANSLATIONS[currentLang];
-
-        document.getElementById('studentName').textContent = log.name;
-        document.getElementById('studentDetail').textContent = log.grade;
-        document.getElementById('studentImg').src = log.img;
-        document.getElementById('modalStatus').textContent = t.success;
-        document.getElementById('typeLabel').textContent = t.entry;
-        document.getElementById('modalTime').textContent = `${t.processed} • ${log.time}`;
-
-        modal.classList.remove('pointer-events-none', 'opacity-0');
-        card.classList.remove('scale-90');
-        card.classList.add('scale-100');
-
-        setTimeout(() => {
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-90');
-            setTimeout(() => modal.classList.add('pointer-events-none'), 300);
-        }, 3000);
-    }
-
-    function showOfflineToast() {
-        const toast = document.getElementById('offlineToast');
-        document.getElementById('toastMsg').textContent = TRANSLATIONS[currentLang].toastOffline;
-        toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-        toast.classList.add('opacity-100', 'translate-y-0');
-        
-        setTimeout(() => {
-            toast.classList.add('opacity-0', 'translate-y-[-20px]');
-            toast.classList.remove('opacity-100', 'translate-y-0');
-        }, 3000);
-    }
-
-    // Interactive Element Events (Micrófono Real Integrado)
-    const voiceBtn = document.getElementById('voiceBtn');
-    const visualizer = document.getElementById('voiceVisualizer');
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    voiceBtn.addEventListener('click', () => {
-        if(voiceBtn.disabled) return;
-
-        if (!SpeechRecognition) {
-            alert("Tu navegador no soporta el reconocimiento de voz. Usa Google Chrome o Edge.");
-            return;
-        }
-
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'es-MX';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        const t = TRANSLATIONS[currentLang];
-        voiceBtn.disabled = true;
-        document.getElementById('btnText').textContent = t.btnListening;
-        document.getElementById('btnIcon').classList.add('micro-pulse');
-        visualizer.classList.remove('opacity-0');
-
-        recognition.start();
-
-        recognition.onresult = function(event) {
-            const textoCapturado = event.results[0][0].transcript.trim();
-            console.log("Voz capturada: " + textoCapturado);
-            logAccess(textoCapturado);
-        };
-
-        recognition.onerror = function(event) {
-            console.error("Error de reconocimiento:", event.error);
-            finalizarEscucha();
-        };
-
-        recognition.onend = function() {
-            finalizarEscucha();
-        };
-    });
-
-    function finalizarEscucha() {
-        const t = TRANSLATIONS[currentLang];
-        visualizer.classList.add('opacity-0');
-        document.getElementById('btnText').textContent = t.btnText;
-        document.getElementById('btnIcon').classList.remove('micro-pulse');
-        voiceBtn.disabled = false;
-        showOfflineToast();
-    }
-
-    document.getElementById('manualSubmit').addEventListener('click', () => {
-        const input = document.getElementById('manualEntry');
-        if (input.value.trim()) {
-            logAccess(input.value.trim(), input.value.trim());
-            input.value = '';
-        }
-    });
-
-    document.getElementById('manualEntry').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('manualSubmit').click();
-    });
-
-    window.addEventListener('online', () => {
-        document.getElementById('statusIndicator').textContent = "Sincronizado (Online)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-status-safe', 'bg-blue-500');
-    });
-    
-    window.addEventListener('offline', () => {
-        document.getElementById('statusIndicator').textContent = "Modo Offline (Local)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-blue-500', 'bg-status-safe');
-    });
-</script>
-<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white">© Chavarría Producciones</footer>
-<script>
-(function() {
-    var saved = localStorage.getItem('veritasAcademyLogo');
-    if (saved) {
-        document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
-            img.src = saved;
         });
-    }
-})();
-</script>
-</body></html>
+    </script>
+</body>
+</html>
