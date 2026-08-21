@@ -222,40 +222,40 @@ CA
     let isListening = false;
     let recognitionInstance = null;
 
-    // Validación estricta con tolerancia a variaciones fonéticas o de apellido
+    // Lógica flexible y confiable para procesar cualquier entrada
     function logAccess(rawInput) {
         if (!rawInput) return;
         
         let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-        let matchedKey = null;
+        let matchedStudent = null;
 
-        // 1. Coincidencia directa con claves o nombres de la base de datos
+        // 1. Búsqueda directa en la base de datos
         for (let key in STUDENTS_DB) {
-            const studentNameNorm = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (query === key || query.includes(key) || query.includes(studentNameNorm)) {
-                matchedKey = key;
+            const student = STUDENTS_DB[key];
+            const nameLower = student.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            if (query.includes(key) || nameLower.includes(query) || query === key) {
+                matchedStudent = student;
                 break;
             }
         }
 
-        // 2. Mapeo adaptativo tolerante a errores comunes del micrófono (como "Julian Vázquez" u otras variantes fonéticas)
-        if (!matchedKey) {
+        // 2. Mapeo adaptativo para errores fonéticos del micrófono (incluyendo variaciones de voz)
+        if (!matchedStudent) {
             if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
-                matchedKey = "ximena";
+                matchedStudent = STUDENTS_DB['ximena'];
             } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
-                matchedKey = "mistica";
-            } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("vazquez") || query.includes("polian") || query.includes("row") || query.includes("tre") || query.includes("bus bema")) {
-                matchedKey = "julian";
+                matchedStudent = STUDENTS_DB['mistica'];
+            } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("vazquez") || query.includes("leon") || query.includes("bus bema") || query.includes("polian")) {
+                matchedStudent = STUDENTS_DB['julian'];
             }
         }
 
-        // Si no pasa ningún filtro válido, se rechaza de inmediato
-        if (!matchedKey || !STUDENTS_DB[matchedKey]) {
-            console.warn("Elemento externo descartado:", rawInput);
-            return; 
+        if (!matchedStudent) {
+            alert(`No se encontró ningún alumno asociado a: "${rawInput}"`);
+            return;
         }
         
-        const matchedStudent = STUDENTS_DB[matchedKey];
         const timestamp = new Date();
         const timeStr = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
