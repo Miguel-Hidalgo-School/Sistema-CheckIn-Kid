@@ -222,17 +222,15 @@ CA
     let isListening = false;
     let recognitionInstance = null;
 
-    // Filtro estricto: Solo acepta datos que coincidan exactamente con la base de datos de alumnos
+    // Validación estricta con tolerancia a variaciones fonéticas o de apellido
     function logAccess(rawInput) {
         if (!rawInput) return;
         
         let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-        
-        // Identificar si contiene exclusivamente la información de los alumnos registrados
         let matchedKey = null;
 
+        // 1. Coincidencia directa con claves o nombres de la base de datos
         for (let key in STUDENTS_DB) {
-            // Verificamos si la lectura contiene el identificador directo o el nombre del alumno
             const studentNameNorm = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             if (query === key || query.includes(key) || query.includes(studentNameNorm)) {
                 matchedKey = key;
@@ -240,20 +238,20 @@ CA
             }
         }
 
-        // Correcciones fonéticas exclusivas para voz en caso de que falle la pronunciación exacta
+        // 2. Mapeo adaptativo tolerante a errores comunes del micrófono (como "Julian Vázquez" u otras variantes fonéticas)
         if (!matchedKey) {
             if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
                 matchedKey = "ximena";
             } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
                 matchedKey = "mistica";
-            } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("polian") || query.includes("row") || query.includes("tre")) {
+            } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("vazquez") || query.includes("polian") || query.includes("row") || query.includes("tre") || query.includes("bus bema")) {
                 matchedKey = "julian";
             }
         }
 
-        // Si después del filtro exhaustivo no pertenece a un alumno real, SE RECHAZA ABSOLUTAMENTE
+        // Si no pasa ningún filtro válido, se rechaza de inmediato
         if (!matchedKey || !STUDENTS_DB[matchedKey]) {
-            console.warn("Dato descartado por seguridad:", rawInput);
+            console.warn("Elemento externo descartado:", rawInput);
             return; 
         }
         
@@ -384,7 +382,6 @@ CA
             const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' });
             
             if (code) {
-                // Solo procesará el QR si coincide realmente con el sistema, ignorando cualquier otra etiqueta
                 logAccess(code.data);
                 scanningActive = false;
                 setTimeout(() => {
