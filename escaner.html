@@ -305,21 +305,21 @@
 <span class="text-[10px] font-bold">Reportes</span>
 </a>
 </nav>
+<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white mb-20">© Chavarría Producciones</footer>
 
 <script>
-    // Self-contained data structure
     const STUDENTS_DB = {
         'mistica': { name: 'Mística Rodríguez', grade: '5º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDScBPjigfsW0bDZ7MR3GDC0fpzWcvGlk7U58IvojyriBxB-YophTfz5RD4Q0o6Es2BS7NVoUfZPjO5wwsBeuUowaVA_fEg3tMmDj-4y3TUGWaC1VcrgnJKSfjv6ZvHeD4UkFT-Cw-kOqL3038TfmY4EGNBDk_seeQotTugpN14DCCtd62Z6CNHtQnABmYqR8n4PkePQUM8fPsT-AC_FOGZDLqDrbgE8qF7dFMxvWw0KnDjntktPlA2' },
         'ximena': { name: 'Ximena Vázquez', grade: '6º A', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' },
         'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8' }
     };
 
-    // Diccionario de corrección fonética / alias
     const VOICE_ALIASES = {
         'he mean': 'ximena',
         'ime na': 'ximena',
         'jimenita': 'ximena',
-        'mistika': 'mistica'
+        'mistika': 'mistica',
+        'julian': 'julian'
     };
 
     const TRANSLATIONS = {
@@ -400,7 +400,6 @@
     function logAccess(studentKey, manualInput = null) {
         let query = studentKey.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
-        // Aplica el diccionario de alias fonéticos
         if (VOICE_ALIASES[query]) {
             query = VOICE_ALIASES[query];
         }
@@ -408,7 +407,8 @@
         let student = null;
         for (let key in STUDENTS_DB) {
             const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedKey === query || STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(query)) {
+            const normalizedName = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (normalizedKey === query || normalizedName.includes(query)) {
                 student = STUDENTS_DB[key];
                 break;
             }
@@ -513,7 +513,6 @@
             
             showOfflineToast();
             
-            // Simulación probando la captura de 'he mean' para traducirla a Ximena
             const textoCapturadoPorVoz = 'he mean'; 
             logAccess(textoCapturadoPorVoz);
         }, 2200);
@@ -540,17 +539,15 @@
         document.getElementById('statusIndicator').textContent = "Modo Offline (Local)";
         document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-blue-500', 'bg-status-safe');
     });
-</script>
-<footer class="w-full text-center py-4 text-[11px] text-on-surface-variant opacity-60 border-t border-outline-variant bg-surface-white">© Chavarría Producciones</footer>
-<script>
-(function() {
-    var saved = localStorage.getItem('veritasAcademyLogo');
-    if (saved) {
-        document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
-            img.src = saved;
-        });
-    }
-})();
+
+    (function() {
+        var saved = localStorage.getItem('veritasAcademyLogo');
+        if (saved) {
+            document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
+                img.src = saved;
+            });
+        }
+    })();
 </script>
 </body>
 </html>
