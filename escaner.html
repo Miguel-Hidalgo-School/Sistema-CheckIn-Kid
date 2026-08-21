@@ -222,38 +222,42 @@ CA
     let isListening = false;
     let recognitionInstance = null;
 
-    // Lógica central para procesar cualquier entrada (QR, Voz o Texto)
+    // Filtro estricto: Solo acepta datos que coincidan exactamente con la base de datos de alumnos
     function logAccess(rawInput) {
         if (!rawInput) return;
         
         let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
-        // Manejo de variantes fonéticas locas del navegador por voz
-        if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
-            query = "ximena";
-        } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
-            query = "mistica";
-        } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("polian") || query.includes("row") || query.includes("tre")) {
-            query = "julian";
-        }
+        // Identificar si contiene exclusivamente la información de los alumnos registrados
+        let matchedKey = null;
 
-        let matchedStudent = null;
-        
         for (let key in STUDENTS_DB) {
-            const student = STUDENTS_DB[key];
-            const nameLower = student.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            
-            if (query.includes(key) || nameLower.includes(query)) {
-                matchedStudent = student;
+            // Verificamos si la lectura contiene el identificador directo o el nombre del alumno
+            const studentNameNorm = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (query === key || query.includes(key) || query.includes(studentNameNorm)) {
+                matchedKey = key;
                 break;
             }
         }
 
-        if (!matchedStudent) {
-            alert(`No se encontró ningún alumno asociado a: "${rawInput}"`);
-            return;
+        // Correcciones fonéticas exclusivas para voz en caso de que falle la pronunciación exacta
+        if (!matchedKey) {
+            if (query.includes("jimena") || query.includes("simena") || query.includes("ximena") || query.includes("columbos")) {
+                matchedKey = "ximena";
+            } else if (query.includes("mistica") || query.includes("mis") || query.includes("ristica")) {
+                matchedKey = "mistica";
+            } else if (query.includes("julian") || query.includes("rodriguez") || query.includes("polian") || query.includes("row") || query.includes("tre")) {
+                matchedKey = "julian";
+            }
+        }
+
+        // Si después del filtro exhaustivo no pertenece a un alumno real, SE RECHAZA ABSOLUTAMENTE
+        if (!matchedKey || !STUDENTS_DB[matchedKey]) {
+            console.warn("Dato descartado por seguridad:", rawInput);
+            return; 
         }
         
+        const matchedStudent = STUDENTS_DB[matchedKey];
         const timestamp = new Date();
         const timeStr = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
@@ -380,8 +384,8 @@ CA
             const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: 'dontInvert' });
             
             if (code) {
+                // Solo procesará el QR si coincide realmente con el sistema, ignorando cualquier otra etiqueta
                 logAccess(code.data);
-                // Pausa breve de lectura para evitar múltiples lecturas seguidas del mismo código
                 scanningActive = false;
                 setTimeout(() => {
                     if (mediaStream) {
