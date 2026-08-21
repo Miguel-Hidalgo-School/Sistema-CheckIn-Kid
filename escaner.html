@@ -361,23 +361,25 @@
     function logAccess(rawInput) {
         if (!rawInput) return;
         
-        // Limpiamos acentos, mayúsculas y espacios para comparar de forma flexible
-        const query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        let query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        
+        // CORRECCIÓN FONÉTICA INTELIGENTE: Si confunde X con J o S (Jimena / Simena -> Ximena)
+        if (query.includes("jimena") || query.includes("simena") || query.includes("ximena")) {
+            query = "ximena";
+        }
+
         let matchedStudent = null;
         
-        // Buscar coincidencia inteligente dentro de la base de datos de alumnos
         for (let key in STUDENTS_DB) {
             const student = STUDENTS_DB[key];
             const nameLower = student.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             
-            // Verificamos si la consulta contiene la clave interna (ej. 'mistica') o partes del nombre real
             if (query.includes(key) || nameLower.includes(query)) {
                 matchedStudent = student;
                 break;
             }
         }
 
-        // Si de plano no coincide con nada, recién se marca como visitante externo
         if (!matchedStudent) {
             matchedStudent = { 
                 name: rawInput, 
@@ -461,12 +463,11 @@
     const voiceBtn = document.getElementById('voiceBtn');
     const visualizer = document.getElementById('voiceVisualizer');
 
-    // Botón de voz con simulación precisa mediante texto de apoyo para evitar fallas del navegador
     voiceBtn.addEventListener('click', () => {
-        if(voiceBtn.disabled) return;
+        if(voiceBtn.dataset.processing === "true") return;
         
         const t = TRANSLATIONS[currentLang];
-        voiceBtn.disabled = true;
+        voiceBtn.dataset.processing = "true";
         document.getElementById('btnText').textContent = t.btnListening;
         document.getElementById('btnIcon').classList.add('micro-pulse');
         visualizer.classList.remove('opacity-0');
@@ -475,13 +476,13 @@
             visualizer.classList.add('opacity-0');
             document.getElementById('btnText').textContent = t.btnText;
             document.getElementById('btnIcon').classList.remove('micro-pulse');
-            voiceBtn.disabled = false;
+            voiceBtn.dataset.processing = "false";
 
-            let entradaSimulada = prompt("🎙️ Reconocimiento de Voz (Simulador):\nEscribe lo que el micrófono 'escuchó' (ej. 'Mistica', 'Julian' o cualquier variante):");
+            let entradaSimulada = prompt("🎙️ Reconocimiento de Voz (Simulador):\nEscribe lo que el micrófono 'escuchó' (ej. 'Jimena', 'Simena', 'Mistica'):");
             if (entradaSimulada) {
                 logAccess(entradaSimulada);
             }
-        }, 1200);
+        }, 800);
     });
 
     document.getElementById('manualSubmit').addEventListener('click', () => {
