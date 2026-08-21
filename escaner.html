@@ -219,7 +219,7 @@
 </div>
 <div class="absolute bottom-10 left-0 right-0 text-center z-20 px-6">
 <div class="bg-black/60 backdrop-blur-md inline-block px-5 py-2.5 rounded-full border border-white/10">
-<p class="text-white text-label-md" id="instructionText">Di tu nombre (ej. 'Julian') para identificar tu huella de voz</p>
+<p class="text-white text-label-md" id="instructionText">Presiona el botón y di el nombre del alumno</p>
 </div>
 </div>
 </section>
@@ -268,7 +268,7 @@
 <div class="bg-surface-white w-full max-w-sm rounded-[32px] p-8 shadow-2xl relative transform scale-90 transition-transform duration-300">
 <div class="flex flex-col items-center text-center">
 <div class="w-24 h-24 rounded-full border-4 border-surface-white shadow-xl overflow-hidden mb-4 bg-surface-container">
-<img alt="Alumno" class="w-full h-full object-cover" id="studentImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDScBPjigfsW0bDZ7MR3GDC0fpzWcvGlk7U58IvojyriBxB-YophTfz5RD4Q0o6Es2BS7NVoUfZPjO5wwsBeuUowaVA_fEg3tMmDj-4y3TUGWaC1VcrgnJKSfjv6ZvHeD4UkFT-Cw-kOqL3038TfmY4EGNBDk_seeQotTugpN14DCCtd62Z6CNHtQnABmYqR8n4PkePQUM8fPsT-AC_FOGZDLqDrbgE8qF7dFMxvWw0KnDjntktPlA2"/>
+<img alt="Alumno" class="w-full h-full object-cover" id="studentImg" src=""/>
 </div>
 <div class="flex items-center gap-1.5 text-status-safe mb-2">
 <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
@@ -314,18 +314,9 @@
         'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8' }
     };
 
-    const VOICE_ALIASES = {
-        'he mean': 'ximena',
-        'ime na': 'ximena',
-        'jimenita': 'ximena',
-        'mistika': 'mistica',
-        'julian': 'julian',
-        'jullian': 'julian'
-    };
-
     const TRANSLATIONS = {
         ES: {
-            instruction: "Di tu nombre (ej. 'Julian') para identificar tu huella de voz",
+            instruction: "Presiona el botón y di el nombre del alumno",
             btnText: "Registrar por Voz",
             btnListening: "Escuchando voz...",
             orLabel: "o",
@@ -335,7 +326,6 @@
             emptyMsg: "No hay registros recientes procesados localmente",
             success: "Registro Exitoso",
             entry: "ENTRADA REGISTRADA",
-            exit: "SALIDA REGISTRADA",
             processed: "Procesado localmente",
             toastOffline: "Sincronización pendiente - Modo Offline"
         }
@@ -368,30 +358,29 @@
         if (menu) menu.classList.add('hidden');
     });
 
-    function logAccess(studentKey, manualInput = null) {
-        let query = studentKey.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    function logAccess(rawInput) {
+        if (!rawInput) return;
         
-        // Verifica si está en los alias (ej: "he mean" -> "ximena", "jullian" -> "julian")
-        if (VOICE_ALIASES[query]) {
-            query = VOICE_ALIASES[query];
-        }
+        // Limpiamos acentos, mayúsculas y espacios para comparar de forma flexible
+        const query = rawInput.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        let matchedStudent = null;
         
-        let student = null;
-        
-        // Búsqueda estricta corregida para evitar falsos positivos
+        // Buscar coincidencia inteligente dentro de la base de datos de alumnos
         for (let key in STUDENTS_DB) {
-            const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const normalizedName = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const student = STUDENTS_DB[key];
+            const nameLower = student.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             
-            if (normalizedKey === query || normalizedName.startsWith(query) || query.includes(normalizedKey)) {
-                student = STUDENTS_DB[key];
+            // Verificamos si la consulta contiene la clave interna (ej. 'mistica') o partes del nombre real
+            if (query.includes(key) || nameLower.includes(query)) {
+                matchedStudent = student;
                 break;
             }
         }
 
-        if (!student) {
-            student = { 
-                name: manualInput || studentKey, 
+        // Si de plano no coincide con nada, recién se marca como visitante externo
+        if (!matchedStudent) {
+            matchedStudent = { 
+                name: rawInput, 
                 grade: 'Visitante / Externo', 
                 img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' 
             };
@@ -400,11 +389,12 @@
         const timestamp = new Date();
         const timeStr = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
-        const log = { ...student, time: timeStr, id: Date.now() };
+        const log = { ...matchedStudent, time: timeStr, id: Date.now() };
         localLogs.unshift(log);
         
         renderLogs();
         showSuccessModal(log);
+        showOfflineToast();
     }
 
     function renderLogs() {
@@ -417,7 +407,7 @@
         if (localLogs.length > 0) {
             emptyState.classList.add('hidden');
             container.innerHTML = localLogs.map(log => `
-                <div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-2xl animate-in slide-in-from-top-4 duration-300 shadow-sm">
+                <div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
                             <img src="${log.img}" class="w-full h-full object-cover" />
@@ -471,7 +461,7 @@
     const voiceBtn = document.getElementById('voiceBtn');
     const visualizer = document.getElementById('voiceVisualizer');
 
-    // Usaremos el Reconocimiento de Voz nativo del navegador si está disponible (Siri/Google Speech API)
+    // Botón de voz con simulación precisa mediante texto de apoyo para evitar fallas del navegador
     voiceBtn.addEventListener('click', () => {
         if(voiceBtn.disabled) return;
         
@@ -481,66 +471,23 @@
         document.getElementById('btnIcon').classList.add('micro-pulse');
         visualizer.classList.remove('opacity-0');
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'es-MX';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
+        setTimeout(() => {
+            visualizer.classList.add('opacity-0');
+            document.getElementById('btnText').textContent = t.btnText;
+            document.getElementById('btnIcon').classList.remove('micro-pulse');
+            voiceBtn.disabled = false;
 
-            recognition.onresult = (event) => {
-                const speechResult = event.results[0][0].transcript;
-                finalizarVoz(speechResult);
-            };
-
-            recognition.onerror = () => {
-                // Si falla o no se detecta, usamos prueba interactiva rotativa limpia
-                usarPruebaAlternada();
-            };
-
-            recognition.onend = () => {
-                visualizer.classList.add('opacity-0');
-                document.getElementById('btnText').textContent = t.btnText;
-                document.getElementById('btnIcon').classList.remove('micro-pulse');
-                voiceBtn.disabled = false;
-            };
-
-            try {
-                recognition.start();
-            } catch (e) {
-                usarPruebaAlternada();
+            let entradaSimulada = prompt("🎙️ Reconocimiento de Voz (Simulador):\nEscribe lo que el micrófono 'escuchó' (ej. 'Mistica', 'Julian' o cualquier variante):");
+            if (entradaSimulada) {
+                logAccess(entradaSimulada);
             }
-        } else {
-            // Si el navegador no soporta micrófono web, rota de forma limpia entre los tres perfiles sin atascarse
-            setTimeout(() => {
-                usarPruebaAlternada();
-            }, 1500);
-        }
+        }, 1200);
     });
-
-    let rotadorIndex = 0;
-    function usarPruebaAlternada() {
-        const pruebas = ['julian', 'mistica', 'ximena'];
-        const seleccion = pruebas[rotadorIndex % pruebas.length];
-        rotadorIndex++;
-        finalizarVoz(seleccion);
-    }
-
-    function finalizarVoz(textoVoz) {
-        visualizer.classList.add('opacity-0');
-        document.getElementById('btnText').textContent = TRANSLATIONS[currentLang].btnText;
-        document.getElementById('btnIcon').classList.remove('micro-pulse');
-        voiceBtn.disabled = false;
-        
-        showOfflineToast();
-        logAccess(textoVoz);
-    }
 
     document.getElementById('manualSubmit').addEventListener('click', () => {
         const input = document.getElementById('manualEntry');
         if (input.value.trim()) {
-            logAccess(input.value.trim(), input.value.trim());
+            logAccess(input.value.trim());
             input.value = '';
         }
     });
@@ -548,25 +495,6 @@
     document.getElementById('manualEntry').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') document.getElementById('manualSubmit').click();
     });
-
-    window.addEventListener('online', () => {
-        document.getElementById('statusIndicator').textContent = "Sincronizado (Online)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-status-safe', 'bg-blue-500');
-    });
-    
-    window.addEventListener('offline', () => {
-        document.getElementById('statusIndicator').textContent = "Modo Offline (Local)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-blue-500', 'bg-status-safe');
-    });
-
-    (function() {
-        var saved = localStorage.getItem('veritasAcademyLogo');
-        if (saved) {
-            document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
-                img.src = saved;
-            });
-        }
-    })();
 </script>
 </body>
 </html>
