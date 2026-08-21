@@ -227,7 +227,7 @@
 <section class="px-mobile-margin -mt-8 relative z-30">
 <div class="bg-surface-white rounded-t-[32px] p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.12)]">
 <div class="flex flex-col gap-6">
-<button class="relative bg-secondary text-on-secondary h-16 rounded-2xl font-label-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-lg overflow-hidden" id="voiceBtn">
+<button class="relative bg-secondary text-on-secondary h-16 rounded-2xl font-label-md flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-lg overflow-hidden cursor-pointer" id="voiceBtn">
 <span class="material-symbols-outlined" id="btnIcon" style="font-variation-settings: 'FILL' 1;">mic</span>
 <span id="btnText">Registrar por Voz</span>
 <div class="absolute inset-0 bg-primary/20 hidden" id="btnLoadingOverlay"></div>
@@ -333,6 +333,7 @@
 
     let currentLang = 'ES';
     let localLogs = [];
+    let isListening = false;
 
     function setLanguage(lang) {
         currentLang = lang;
@@ -464,26 +465,69 @@
     const visualizer = document.getElementById('voiceVisualizer');
 
     voiceBtn.addEventListener('click', () => {
-        if(voiceBtn.dataset.processing === "true") return;
-        
+        if (isListening) return;
+        isListening = true;
+
         const t = TRANSLATIONS[currentLang];
-        voiceBtn.dataset.processing = "true";
         document.getElementById('btnText').textContent = t.btnListening;
         document.getElementById('btnIcon').classList.add('micro-pulse');
         visualizer.classList.remove('opacity-0');
 
-        setTimeout(() => {
-            visualizer.classList.add('opacity-0');
-            document.getElementById('btnText').textContent = t.btnText;
-            document.getElementById('btnIcon').classList.remove('micro-pulse');
-            voiceBtn.dataset.processing = "false";
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-            let entradaSimulada = prompt("🎙️ Reconocimiento de Voz (Simulador):\nEscribe lo que el micrófono 'escuchó' (ej. 'Jimena', 'Simena', 'Mistica'):");
+        if (SpeechRecognition) {
+            try {
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'es-MX';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onresult = (event) => {
+                    const speechResult = event.results[0][0].transcript;
+                    logAccess(speechResult);
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn("Error de reconocimiento de voz:", event.error);
+                    fallbackSimulation();
+                };
+
+                recognition.onend = () => {
+                    resetVoiceState();
+                };
+
+                recognition.start();
+                return;
+            } catch (e) {
+                console.warn("No se pudo iniciar el micrófono nativo, usando simulador.");
+            }
+        }
+        
+        // Respaldo por simulador si no hay API disponible
+        setTimeout(() => {
+            resetVoiceState();
+            let entradaSimulada = prompt("🎙️ Micrófono no disponible o simulador:\nEscribe el nombre del alumno (ej. 'Jimena', 'Simena', 'Mistica'):");
             if (entradaSimulada) {
                 logAccess(entradaSimulada);
             }
         }, 800);
     });
+
+    function resetVoiceState() {
+        isListening = false;
+        const t = TRANSLATIONS[currentLang];
+        visualizer.classList.add('opacity-0');
+        document.getElementById('btnText').textContent = t.btnText;
+        document.getElementById('btnIcon').classList.remove('micro-pulse');
+    }
+
+    function fallbackSimulation() {
+        resetVoiceState();
+        let entradaSimulada = prompt("🎙️ No se capturó audio claro.\nEscribe el nombre del alumno (ej. 'Ximena Vázquez', 'Mística'):");
+        if (entradaSimulada) {
+            logAccess(entradaSimulada);
+        }
+    }
 
     document.getElementById('manualSubmit').addEventListener('click', () => {
         const input = document.getElementById('manualEntry');
