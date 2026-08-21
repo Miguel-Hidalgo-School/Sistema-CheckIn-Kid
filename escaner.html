@@ -219,7 +219,7 @@
 </div>
 <div class="absolute bottom-10 left-0 right-0 text-center z-20 px-6">
 <div class="bg-black/60 backdrop-blur-md inline-block px-5 py-2.5 rounded-full border border-white/10">
-<p class="text-white text-label-md" id="instructionText">Di tu nombre (ej. 'Mística') para identificar tu huella de voz</p>
+<p class="text-white text-label-md" id="instructionText">Di tu nombre (ej. 'Julian') para identificar tu huella de voz</p>
 </div>
 </div>
 </section>
@@ -319,14 +319,15 @@
         'ime na': 'ximena',
         'jimenita': 'ximena',
         'mistika': 'mistica',
-        'julian': 'julian'
+        'julian': 'julian',
+        'jullian': 'julian'
     };
 
     const TRANSLATIONS = {
         ES: {
-            instruction: "Di tu nombre (ej. 'Mística') para identificar tu huella de voz",
+            instruction: "Di tu nombre (ej. 'Julian') para identificar tu huella de voz",
             btnText: "Registrar por Voz",
-            btnListening: "Identificando huella...",
+            btnListening: "Escuchando voz...",
             orLabel: "o",
             manualLabel: "Entrada Manual",
             placeholder: "ID o Nombre del Alumno",
@@ -337,36 +338,6 @@
             exit: "SALIDA REGISTRADA",
             processed: "Procesado localmente",
             toastOffline: "Sincronización pendiente - Modo Offline"
-        },
-        EN: {
-            instruction: "Say your name (e.g., 'Mistica') to identify your voiceprint",
-            btnText: "Voice Registration",
-            btnListening: "Identifying print...",
-            orLabel: "or",
-            manualLabel: "Manual Entry",
-            placeholder: "Student ID or Name",
-            recentTitle: "Local Records (Today)",
-            emptyMsg: "No recent local logs processed",
-            success: "Registration Success",
-            entry: "CHECK-IN RECORDED",
-            exit: "CHECK-OUT RECORDED",
-            processed: "Locally processed",
-            toastOffline: "Sync pending - Offline Mode"
-        },
-        PT: {
-            instruction: "Diga seu nome (ex: 'Mística') para identificar sua voz",
-            btnText: "Registrar por Voz",
-            btnListening: "Identificando...",
-            orLabel: "ou",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID ou Nome do Aluno",
-            recentTitle: "Registros Locais (Hoje)",
-            emptyMsg: "Nenhum registro recente processado localmente",
-            success: "Sucesso",
-            entry: "ENTRADA REGISTRADA",
-            exit: "SAÍDA REGISTRADA",
-            processed: "Processado localmente",
-            toastOffline: "Sincronização pendente - Modo Offline"
         }
     };
 
@@ -375,7 +346,7 @@
 
     function setLanguage(lang) {
         currentLang = lang;
-        const t = TRANSLATIONS[lang];
+        const t = TRANSLATIONS[lang] || TRANSLATIONS['ES'];
         document.getElementById('currentLang').textContent = lang;
         document.getElementById('instructionText').textContent = t.instruction;
         document.getElementById('btnText').textContent = t.btnText;
@@ -400,15 +371,19 @@
     function logAccess(studentKey, manualInput = null) {
         let query = studentKey.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         
+        // Verifica si está en los alias (ej: "he mean" -> "ximena", "jullian" -> "julian")
         if (VOICE_ALIASES[query]) {
             query = VOICE_ALIASES[query];
         }
         
         let student = null;
+        
+        // Búsqueda estricta corregida para evitar falsos positivos
         for (let key in STUDENTS_DB) {
             const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             const normalizedName = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedKey === query || normalizedName.includes(query)) {
+            
+            if (normalizedKey === query || normalizedName.startsWith(query) || query.includes(normalizedKey)) {
                 student = STUDENTS_DB[key];
                 break;
             }
@@ -496,6 +471,7 @@
     const voiceBtn = document.getElementById('voiceBtn');
     const visualizer = document.getElementById('voiceVisualizer');
 
+    // Usaremos el Reconocimiento de Voz nativo del navegador si está disponible (Siri/Google Speech API)
     voiceBtn.addEventListener('click', () => {
         if(voiceBtn.disabled) return;
         
@@ -504,19 +480,62 @@
         document.getElementById('btnText').textContent = t.btnListening;
         document.getElementById('btnIcon').classList.add('micro-pulse');
         visualizer.classList.remove('opacity-0');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         
-        setTimeout(() => {
-            visualizer.classList.add('opacity-0');
-            document.getElementById('btnText').textContent = t.btnText;
-            document.getElementById('btnIcon').classList.remove('micro-pulse');
-            voiceBtn.disabled = false;
-            
-            showOfflineToast();
-            
-            const textoCapturadoPorVoz = 'he mean'; 
-            logAccess(textoCapturadoPorVoz);
-        }, 2200);
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'es-MX';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                finalizarVoz(speechResult);
+            };
+
+            recognition.onerror = () => {
+                // Si falla o no se detecta, usamos prueba interactiva rotativa limpia
+                usarPruebaAlternada();
+            };
+
+            recognition.onend = () => {
+                visualizer.classList.add('opacity-0');
+                document.getElementById('btnText').textContent = t.btnText;
+                document.getElementById('btnIcon').classList.remove('micro-pulse');
+                voiceBtn.disabled = false;
+            };
+
+            try {
+                recognition.start();
+            } catch (e) {
+                usarPruebaAlternada();
+            }
+        } else {
+            // Si el navegador no soporta micrófono web, rota de forma limpia entre los tres perfiles sin atascarse
+            setTimeout(() => {
+                usarPruebaAlternada();
+            }, 1500);
+        }
     });
+
+    let rotadorIndex = 0;
+    function usarPruebaAlternada() {
+        const pruebas = ['julian', 'mistica', 'ximena'];
+        const seleccion = pruebas[rotadorIndex % pruebas.length];
+        rotadorIndex++;
+        finalizarVoz(seleccion);
+    }
+
+    function finalizarVoz(textoVoz) {
+        visualizer.classList.add('opacity-0');
+        document.getElementById('btnText').textContent = TRANSLATIONS[currentLang].btnText;
+        document.getElementById('btnIcon').classList.remove('micro-pulse');
+        voiceBtn.disabled = false;
+        
+        showOfflineToast();
+        logAccess(textoVoz);
+    }
 
     document.getElementById('manualSubmit').addEventListener('click', () => {
         const input = document.getElementById('manualEntry');
@@ -550,249 +569,4 @@
     })();
 </script>
 </body>
-    <script>
-    const STUDENTS_DB = {
-        'mistica': { name: 'Mística Rodríguez', grade: '5º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDScBPjigfsW0bDZ7MR3GDC0fpzWcvGlk7U58IvojyriBxB-YophTfz5RD4Q0o6Es2BS7NVoUfZPjO5wwsBeuUowaVA_fEg3tMmDj-4y3TUGWaC1VcrgnJKSfjv6ZvHeD4UkFT-Cw-kOqL3038TfmY4EGNBDk_seeQotTugpN14DCCtd62Z6CNHtQnABmYqR8n4PkePQUM8fPsT-AC_FOGZDLqDrbgE8qF7dFMxvWw0KnDjntktPlA2' },
-        'ximena': { name: 'Ximena Vázquez', grade: '6º A', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' },
-        'julian': { name: 'Julian Rodriguez', grade: '4º B', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP5OnFzzD54ApPOt46JKIpKYYh4xxukQC7S-CDzRupKcE-_cPtzV-SAvrNvxuGusn_wTA7vPQWs6C6Lcw2aN7YEyKzaCEFdqXWMSyuWpK7t4gn3GaLBLB1zw8CQBcCipO1VNzmBfuPyew18ElO-zodQurNzXf9cDBm_9nGU3fmGzCFctLM0iYx0r5dinEVAXrDQ9dXRYA32r1Q_IgpLHWt1UwM2NvGnnE7h5iFFrjpMPKktM3p14I8' }
-    };
-
-    const VOICE_ALIASES = {
-        'he mean': 'ximena',
-        'ime na': 'ximena',
-        'jimenita': 'ximena',
-        'mistika': 'mistica',
-        'julian': 'julian'
-    };
-
-    const TRANSLATIONS = {
-        ES: {
-            instruction: "Di tu nombre (ej. 'Mística') para identificar tu huella de voz",
-            btnText: "Registrar por Voz",
-            btnListening: "Identificando huella...",
-            orLabel: "o",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID o Nombre del Alumno",
-            recentTitle: "Registros Locales (Hoy)",
-            emptyMsg: "No hay registros recientes procesados localmente",
-            success: "Registro Exitoso",
-            entry: "ENTRADA REGISTRADA",
-            exit: "SALIDA REGISTRADA",
-            processed: "Procesado localmente",
-            toastOffline: "Sincronización pendiente - Modo Offline"
-        },
-        EN: {
-            instruction: "Say your name (e.g., 'Mistica') to identify your voiceprint",
-            btnText: "Voice Registration",
-            btnListening: "Identifying print...",
-            orLabel: "or",
-            manualLabel: "Manual Entry",
-            placeholder: "Student ID or Name",
-            recentTitle: "Local Records (Today)",
-            emptyMsg: "No recent local logs processed",
-            success: "Registration Success",
-            entry: "CHECK-IN RECORDED",
-            exit: "CHECK-OUT RECORDED",
-            processed: "Locally processed",
-            toastOffline: "Sync pending - Offline Mode"
-        },
-        PT: {
-            instruction: "Diga seu nome (ex: 'Mística') para identificar sua voz",
-            btnText: "Registrar por Voz",
-            btnListening: "Identificando...",
-            orLabel: "ou",
-            manualLabel: "Entrada Manual",
-            placeholder: "ID ou Nome do Aluno",
-            recentTitle: "Registros Locais (Hoje)",
-            emptyMsg: "Nenhum registro recente processado localmente",
-            success: "Sucesso",
-            entry: "ENTRADA REGISTRADA",
-            exit: "SAÍDA REGISTRADA",
-            processed: "Processado localmente",
-            toastOffline: "Sincronização pendente - Modo Offline"
-        }
-    };
-
-    let currentLang = 'ES';
-    let localLogs = [];
-
-    function setLanguage(lang) {
-        currentLang = lang;
-        const t = TRANSLATIONS[lang];
-        document.getElementById('currentLang').textContent = lang;
-        document.getElementById('instructionText').textContent = t.instruction;
-        document.getElementById('btnText').textContent = t.btnText;
-        document.getElementById('orLabel').textContent = t.orLabel;
-        document.getElementById('manualLabel').textContent = t.manualLabel;
-        document.getElementById('manualEntry').placeholder = t.placeholder;
-        document.getElementById('recentTitle').textContent = t.recentTitle;
-        document.getElementById('emptyMsg').textContent = t.emptyMsg;
-        document.getElementById('langMenu').classList.add('hidden');
-    }
-
-    document.getElementById('langToggle').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('langMenu').classList.toggle('hidden');
-    });
-
-    window.addEventListener('click', () => {
-        const menu = document.getElementById('langMenu');
-        if (menu) menu.classList.add('hidden');
-    });
-
-    function logAccess(studentKey, manualInput = null) {
-        let query = studentKey.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-        
-        if (VOICE_ALIASES[query]) {
-            query = VOICE_ALIASES[query];
-        }
-        
-        let student = null;
-        for (let key in STUDENTS_DB) {
-            const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const normalizedName = STUDENTS_DB[key].name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedKey === query || normalizedName.includes(query)) {
-                student = STUDENTS_DB[key];
-                break;
-            }
-        }
-
-        if (!student) {
-            student = { 
-                name: manualInput || studentKey, 
-                grade: 'Visitante / Externo', 
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHi4a7E1NFWxqvJ2Xmk0X9pzn2iqGcItxoBxXOCADHYWbaEMHoXNB3zOx-JPYJVxtB2Fi6t2MjLOuBO0Z-iPr4g79gdTA9TevVx_H7-4ZgAh4tlboQ_Y9qLCVw-AJakoT8wKbdd8rnabVckj-J8i-PYfd6vkAC10GKmksal5DqhMdZQ-gEr0wWJ6ScpF9D96jP2LTIOBCL0Rkn1e9fLjj7x1QK8q095uLJ1etm5hoWOSLzLBWd29vY' 
-            };
-        }
-        
-        const timestamp = new Date();
-        const timeStr = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
-        const log = { ...student, time: timeStr, id: Date.now() };
-        localLogs.unshift(log);
-        
-        renderLogs();
-        showSuccessModal(log);
-    }
-
-    function renderLogs() {
-        const container = document.getElementById('recentScans');
-        const countBadge = document.getElementById('logCount');
-        const emptyState = document.getElementById('emptyLogs');
-        
-        countBadge.textContent = `${localLogs.length} logs`;
-        
-        if (localLogs.length > 0) {
-            emptyState.classList.add('hidden');
-            container.innerHTML = localLogs.map(log => `
-                <div class="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant rounded-2xl animate-in slide-in-from-top-4 duration-300 shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
-                            <img src="${log.img}" class="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <p class="font-bold text-on-surface text-[14px]">${log.name}</p>
-                            <p class="text-[11px] text-on-surface-variant font-medium">${log.time} • ${log.grade}</p>
-                        </div>
-                    </div>
-                    <span class="px-2.5 py-1 bg-status-safe/10 text-status-safe rounded-lg text-[10px] font-bold">ENTRADA</span>
-                </div>
-            `).join('');
-        }
-    }
-
-    function showSuccessModal(log) {
-        const modal = document.getElementById('successModal');
-        const card = modal.querySelector('div:last-child');
-        const t = TRANSLATIONS[currentLang];
-
-        document.getElementById('studentName').textContent = log.name;
-        document.getElementById('studentDetail').textContent = log.grade;
-        document.getElementById('studentImg').src = log.img;
-        document.getElementById('modalStatus').textContent = t.success;
-        document.getElementById('typeLabel').textContent = t.entry;
-        document.getElementById('modalTime').textContent = `${t.processed} • ${log.time}`;
-
-        modal.classList.remove('pointer-events-none', 'opacity-0');
-        card.classList.remove('scale-90');
-        card.classList.add('scale-100');
-
-        setTimeout(() => {
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-90');
-            setTimeout(() => modal.classList.add('pointer-events-none'), 300);
-        }, 3000);
-    }
-
-    function showOfflineToast() {
-        const toast = document.getElementById('offlineToast');
-        document.getElementById('toastMsg').textContent = TRANSLATIONS[currentLang].toastOffline;
-        toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-        toast.classList.add('opacity-100', 'translate-y-0');
-        
-        setTimeout(() => {
-            toast.classList.add('opacity-0', 'translate-y-[-20px]');
-            toast.classList.remove('opacity-100', 'translate-y-0');
-        }, 3000);
-    }
-
-    const voiceBtn = document.getElementById('voiceBtn');
-    const visualizer = document.getElementById('voiceVisualizer');
-
-    voiceBtn.addEventListener('click', () => {
-        if(voiceBtn.disabled) return;
-        
-        const t = TRANSLATIONS[currentLang];
-        voiceBtn.disabled = true;
-        document.getElementById('btnText').textContent = t.btnListening;
-        document.getElementById('btnIcon').classList.add('micro-pulse');
-        visualizer.classList.remove('opacity-0');
-        
-        setTimeout(() => {
-            visualizer.classList.add('opacity-0');
-            document.getElementById('btnText').textContent = t.btnText;
-            document.getElementById('btnIcon').classList.remove('micro-pulse');
-            voiceBtn.disabled = false;
-            
-            showOfflineToast();
-            
-            // Simulación interactiva rotando entre perfiles
-            const nombresDePrueba = ['he mean', 'mistica', 'julian'];
-            const vozAleatoria = nombresDePrueba[Math.floor(Math.random() * nombresDePrueba.length)];
-            
-            logAccess(vozAleatoria);
-        }, 2200);
-    });
-
-    document.getElementById('manualSubmit').addEventListener('click', () => {
-        const input = document.getElementById('manualEntry');
-        if (input.value.trim()) {
-            logAccess(input.value.trim(), input.value.trim());
-            input.value = '';
-        }
-    });
-
-    document.getElementById('manualEntry').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('manualSubmit').click();
-    });
-
-    window.addEventListener('online', () => {
-        document.getElementById('statusIndicator').textContent = "Sincronizado (Online)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-status-safe', 'bg-blue-500');
-    });
-    
-    window.addEventListener('offline', () => {
-        document.getElementById('statusIndicator').textContent = "Modo Offline (Local)";
-        document.getElementById('statusIndicator').previousElementSibling.classList.replace('bg-blue-500', 'bg-status-safe');
-    });
-
-    (function() {
-        var saved = localStorage.getItem('veritasAcademyLogo');
-        if (saved) {
-            document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(img) {
-                img.src = saved;
-            });
-        }
-    })();
-</script>
 </html>
