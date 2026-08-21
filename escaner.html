@@ -42,13 +42,26 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         function logAccess(textoCapturado) {
-            // Limpieza inteligente: quita acentos, minúsculas y espacios (ej: "Jule An" -> "julean")
-            const query = textoCapturado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
+            let query = textoCapturado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
             
+            // Diccionario de correcciones automáticas para errores locos del micrófono
+            const aliasMap = {
+                'holy and': 'julian',
+                'jule an': 'julian',
+                'julian': 'julian',
+                'julián': 'julian',
+                'mistica': 'mistica',
+                'ximena': 'ximena'
+            };
+
+            // Si el texto capturado está en los errores comunes, lo redirigimos directo a su llave real
+            if (aliasMap[query]) {
+                query = aliasMap[query];
+            }
+
             let student = null;
             for (let key in STUDENTS_DB) {
                 const normalizedKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                // Compara si lo que escuchó contiene el nombre o viceversa
                 if (query.includes(normalizedKey) || normalizedKey.includes(query)) {
                     student = STUDENTS_DB[key];
                     break;
